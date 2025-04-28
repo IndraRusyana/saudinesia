@@ -265,8 +265,8 @@
 
 </div>
 
-<div class="section">
-    <div class="container">
+<div class="section" style="background-color: #FEF7F4">
+    <div class="container" >
         <div class="row justify-content-between align-items-center">
             <div class="col-lg-5 mb-4 mb-lg-0" data-aos="fade-up">
                 <img src="assets/user/images/img3.jpg" alt="Image" class="img-fluid">
@@ -332,6 +332,60 @@
     </div>
 
 </div> <!-- /.untree_co-section -->
+
+<div class="section">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-6 mx-auto text-center">
+                <div class="heading-content" data-aos="fade-up">
+                    <h2>Portofolio Kami</h2>
+                    <p>Lorem ipsum dolor sit amet consectetur. Mollis erat duis aliquam mauris est risus lectus. Phasellus consequat urna tellus</p>
+                    {{-- <p class="my-4" data-aos="fade-up" data-aos-delay="300"><a href="#" class="btn btn-primary">View All</a></p> --}}
+                    <div class="mb-4" data-aos="fade-up" data-aos-delay="300">
+                        <a class="btn product-btn btn-danger btn-default filter-button me-2 my-2 clicked"
+                            data-filter="all">Semua</a>
+                        <a class="btn product-btn btn-danger btn-default filter-button me-2 my-2" data-filter="Madinah">Madinah</a>
+                        <a class="btn product-btn btn-danger btn-default filter-button me-2 my-2" data-filter="Makkah">Makkah</a>
+                        <a class="btn product-btn btn-danger btn-default filter-button me-2 my-2" data-filter="Dhahran">Dhahran</a>
+                        <a class="btn product-btn btn-danger btn-default filter-button me-2 my-2" data-filter="Al-Baha">Al-Baha</a>
+                        <a class="btn product-btn btn-danger btn-default filter-button me-2 my-2" data-filter="Abha">Abha</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="row">
+                {{-- @foreach ($galeri as $item) --}}
+                    {{-- <div class="mb-4 col-md-3 justify-content-center filter foto">
+                        <img src="{{ asset('storage/' . $item->gambar) }}"
+                            onclick="openMediaModal('image', '{{ asset('storage/' . $item->gambar) }}', '{{ $item->nama }}', '{{ $item->deskripsi }}')"
+                            class="img-thumbnail" style="cursor: pointer;">
+                    </div> --}}
+                {{-- @endforeach --}}
+                <div class="col-lg-3">
+					<div class="service-2 left-0 mb-5 mx-3">
+						<img src="assets/user/images/gal_5.jpg" alt="Image" class="img-fluid mb-4 rounded">
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="service-2 left-0 mb-5 mx-3">
+						<img src="assets/user/images/gal_6.jpg" alt="Image" class="img-fluid mb-4 rounded">
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="service-2 left-0 mb-5 mx-3">
+						<img src="assets/user/images/gal_3.jpg" alt="Image" class="img-fluid mb-4 rounded">
+					</div>
+				</div>
+				<div class="col-lg-3">
+					<div class="service-2 left-0 mb-5 mx-3">
+						<img src="assets/user/images/gal_4.jpg" alt="Image" class="img-fluid mb-4 rounded">
+					</div>
+				</div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="section">
     <div class="container">
