@@ -12,15 +12,17 @@ class UserAndAdminSeeder extends Seeder
     public function run(): void
     {
         // Seeder untuk tabel users
-        DB::table('users')->insert([
-            'name' => 'User1',
-            'email' => 'user1@mail.com',
-            'email_verified_at' => now(),
-            'password' => Hash::make('password'), // Ganti dengan password aman
-            'remember_token' => Str::random(10),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        for ($i = 1; $i <= 5; $i++) {
+            DB::table('users')->insert([
+                'name' => 'User'.$i,
+                'email' => 'user'.$i.'@mail.com',
+                'email_verified_at' => now(),
+                'password' => Hash::make('password'), // Ganti dengan password aman
+                'remember_token' => Str::random(10),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
 
         // Seeder untuk tabel admins
         DB::table('admins')->insert([

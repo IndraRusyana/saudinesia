@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-lg-3 pe-4">
                 <!-- Content -->
-                <img class="mb-4 img-fluid w-50" src="assets/user/images/LOGO_SAUDINESIA.png" alt="" srcset="">
+                <img class="mb-4 img-fluid w-50" src="{{asset('assets/user/images/LOGO_SAUDINESIA.png')}}" alt="" srcset="">
                 <p>
                     Merupakan salah satu perusahaan yang bergerak di bidang usaha perdagangan tekstil, konveksi, supplier, perdagangan umum, dan konstruksi sipil.
                 </p>

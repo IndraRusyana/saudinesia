@@ -1,27 +1,59 @@
-<nav id="sidebar" class="active">
+<nav id="sidebar">
     <div class="sidebar-header">
-        <img src="assets/admin/img/bootstraper-logo.png" alt="bootraper logo" class="app-logo">
+        <img src="{{ asset('assets/user/images/LOGO_SAUDINESIA.png') }}" alt="Saudinesia logo" class="app-logo"
+            width="120">
     </div>
     <ul class="list-unstyled components text-secondary">
         <li>
-            <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="/admin/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
         </li>
         <li>
-            <a href="dashboard.html"><i class="fas fa-home"></i> Paket</a>
+            <a href="#uipaketmenu" data-bs-toggle="collapse" aria-expanded="false"
+                class="dropdown-toggle no-caret-down"><i class="fas fa-boxes"></i> Paket</a>
+            <ul class="collapse list-unstyled" id="uipaketmenu">
+                <li>
+                    <a href="/admin/paket/haji"><i class="fas fa-kaaba"></i> Haji</a>
+                </li>
+                <li>
+                    <a href="/admin/paket/umroh"><i class="fas fa-mosque"></i> Umroh</a>
+                </li>
+            </ul>
         </li>
         <li>
-            <a href="dashboard.html"><i class="fas fa-home"></i> Layanan</a>
+            <a href="#uilayananmenu" data-bs-toggle="collapse" aria-expanded="false"
+                class="dropdown-toggle no-caret-down"><i class="fas fa-concierge-bell"></i> Layanan</a>
+            <ul class="collapse list-unstyled" id="uilayananmenu">
+                <li>
+                    <a href="/admin/layanan/hotel"><i class="fas fa-hotel"></i> Hotel</a>
+                </li>
+                <li>
+                    <a href="/admin/layanan/transport"><i class="fas fa-bus-alt"></i> Transport</a>
+                </li>
+                <li>
+                    <a href="/admin/layanan/muttowif"><i class="fas fa-user-friends"></i> Muttowif</a>
+                </li>
+                <li>
+                    <a href="/admin/layanan/visa"><i class="fas fa-passport"></i> Visa</a>
+                </li>
+            </ul>
         </li>
         <li>
-            <a href="dashboard.html"><i class="fas fa-home"></i> Informasi</a>
+            <a href="/admin/informasi"><i class="fas fa-info-circle"></i> Informasi</a>
         </li>
         <li>
-            <a href="dashboard.html"><i class="fas fa-home"></i> User</a>
+            <a href="/admin/users"><i class="fas fa-users"></i> User</a>
         </li>
         <li>
-            <a href="dashboard.html"><i class="fas fa-home"></i> manajemen</a>
+            <a href="#"><i class="fas fa-cogs"></i> Manajemen</a>
         </li>
         <li>
+            <a href="/admin/periode"><i class="fas fa-calendar"></i> Periode</a>
+        </li>
+        <li>
+            <a href="/admin/kota"><i class="fas fa-city"></i> Kota</a>
+        </li>
+
+        {{-- <li>
             <a href="forms.html"><i class="fas fa-file-alt"></i> Forms</a>
         </li>
         <li>
@@ -92,6 +124,6 @@
         </li>
         <li>
             <a href="settings.html"><i class="fas fa-cog"></i>Settings</a>
-        </li>
+        </li> --}}
     </ul>
 </nav>

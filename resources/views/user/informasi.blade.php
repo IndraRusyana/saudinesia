@@ -21,151 +21,34 @@
 
                 <div class="row g-4 align-items-stretch">
                     <h3>Informasi Terbaru</h3>
-                    <div class="col-6 col-sm-6 col-md-6 col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="100">
-                        <div class="media-entry">
+                    @forelse ($query as $index => $item)
+                        <div class="col-lg-3">
                             <a href="">
-                                <img src="assets/user/images/gal_1.jpg" alt="Image" class="img-fluid">
+                                <div class="card mb-3">
+                                    <img class="card-img-top p-2" src="{{ asset('storage/' . $item->images) }}"
+                                        alt="Card image cap">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $item->title }}</h5>
+                                        <p class="card-text text-dark">{{ Str::limit($item->content, 100, '...') }}</p>
+                                        <p class="card-text"><small class="text-muted">{{ $item->date }}</small></p>
+                                    </div>
+                                </div>
                             </a>
-                            <div class="bg-white m-body">
-                                <span class="date">May 14, 2020</span>
-                                <h3><a href="">Far far away, behind the word mountains</a></h3>
-                                <p>Vokalia and Consonantia, there live the blind texts. Separated they live.</p>
-
-                                <a href="" class="more d-flex align-items-center float-start">
-                                    <span class="label">Read More</span>
-                                    <span class="arrow"><span class="icon-keyboard_arrow_right"></span></span>
-                                </a>
-                            </div>
                         </div>
-                    </div>
-                    <div class="col-6 col-sm-6 col-md-6 col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="200">
-                        <div class="media-entry">
-                            <a href="">
-                                <img src="assets/user/images/gal_2.jpg" alt="Image" class="img-fluid">
-                            </a>
-                            <div class="bg-white m-body">
-                                <span class="date">May 14, 2020</span>
-                                <h3><a href="">Far far away, behind the word mountains</a></h3>
-                                <p>Vokalia and Consonantia, there live the blind texts. Separated they live.</p>
-
-                                <a href="" class="more d-flex align-items-center float-start">
-                                    <span class="label">Read More</span>
-                                    <span class="arrow"><span class="icon-keyboard_arrow_right"></span></span>
-                                </a>
-                            </div>
+                    @empty
+                        <div class="col-12 text-center">
+                            <div class="alert alert-warning">Belum ada data informasi yang tersedia.</div>
                         </div>
-                    </div>
-                    <div class="col-6 col-sm-6 col-md-6 col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="300">
-                        <div class="media-entry">
-                            <a href="">
-                                <img src="assets/user/images/gal_3.jpg" alt="Image" class="img-fluid">
-                            </a>
-                            <div class="bg-white m-body">
-                                <span class="date">May 14, 2020</span>
-                                <h3><a href="">Far far away, behind the word mountains</a></h3>
-                                <p>Vokalia and Consonantia, there live the blind texts. Separated they live.</p>
-                                <a href="" class="more d-flex align-items-center float-start">
-                                    <span class="label">Read More</span>
-                                    <span class="arrow"><span class="icon-keyboard_arrow_right"></span></span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-sm-6 col-md-6 col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="400">
-                        <div class="media-entry">
-                            <a href="">
-                                <img src="assets/user/images/gal_4.jpg" alt="Image" class="img-fluid">
-                            </a>
-                            <div class="bg-white m-body">
-                                <span class="date">May 14, 2020</span>
-                                <h3><a href="">Far far away, behind the word mountains</a></h3>
-                                <p>Vokalia and Consonantia, there live the blind texts. Separated they live.</p>
-                                <a href="" class="more d-flex align-items-center float-start">
-                                    <span class="label">Read More</span>
-                                    <span class="arrow"><span class="icon-keyboard_arrow_right"></span></span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-6 col-sm-6 col-md-6 col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="100">
-                        <div class="media-entry">
-                            <a href="">
-                                <img src="assets/user/images/gal_1.jpg" alt="Image" class="img-fluid">
-                            </a>
-                            <div class="bg-white m-body">
-                                <span class="date">May 14, 2020</span>
-                                <h3><a href="">Far far away, behind the word mountains</a></h3>
-                                <p>Vokalia and Consonantia, there live the blind texts. Separated they live.</p>
-
-                                <a href="" class="more d-flex align-items-center float-start">
-                                    <span class="label">Read More</span>
-                                    <span class="arrow"><span class="icon-keyboard_arrow_right"></span></span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-sm-6 col-md-6 col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="200">
-                        <div class="media-entry">
-                            <a href="">
-                                <img src="assets/user/images/gal_2.jpg" alt="Image" class="img-fluid">
-                            </a>
-                            <div class="bg-white m-body">
-                                <span class="date">May 14, 2020</span>
-                                <h3><a href="">Far far away, behind the word mountains</a></h3>
-                                <p>Vokalia and Consonantia, there live the blind texts. Separated they live.</p>
-
-                                <a href="" class="more d-flex align-items-center float-start">
-                                    <span class="label">Read More</span>
-                                    <span class="arrow"><span class="icon-keyboard_arrow_right"></span></span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-sm-6 col-md-6 col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="300">
-                        <div class="media-entry">
-                            <a href="">
-                                <img src="assets/user/images/gal_3.jpg" alt="Image" class="img-fluid">
-                            </a>
-                            <div class="bg-white m-body">
-                                <span class="date">May 14, 2020</span>
-                                <h3><a href="">Far far away, behind the word mountains</a></h3>
-                                <p>Vokalia and Consonantia, there live the blind texts. Separated they live.</p>
-                                <a href="" class="more d-flex align-items-center float-start">
-                                    <span class="label">Read More</span>
-                                    <span class="arrow"><span class="icon-keyboard_arrow_right"></span></span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-sm-6 col-md-6 col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="400">
-                        <div class="media-entry">
-                            <a href="">
-                                <img src="assets/user/images/gal_4.jpg" alt="Image" class="img-fluid">
-                            </a>
-                            <div class="bg-white m-body">
-                                <span class="date">May 14, 2020</span>
-                                <h3><a href="">Far far away, behind the word mountains</a></h3>
-                                <p>Vokalia and Consonantia, there live the blind texts. Separated they live.</p>
-                                <a href="" class="more d-flex align-items-center float-start">
-                                    <span class="label">Read More</span>
-                                    <span class="arrow"><span class="icon-keyboard_arrow_right"></span></span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    @endforelse
 
 
 
-                    <nav class="mt-5" aria-label="Page navigation example" data-aos="fade-up" data-aos-delay="100">
-                        <ul class="custom-pagination pagination">
-                            <li class="page-item prev"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item next"><a class="page-link" href="#">Next</a></li>
-                        </ul>
-                    </nav>
+
+                    @if ($query->hasPages())
+                        <div class="my-5">
+                            {!! $query->withQueryString()->links('pagination::bootstrap-5') !!}
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
