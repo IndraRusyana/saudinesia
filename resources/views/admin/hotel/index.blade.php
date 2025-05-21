@@ -104,7 +104,7 @@
                                                                         <div class="row">
                                                                             @foreach ($item->images as $image)
                                                                                 <div class="col-md-4 mb-3">
-                                                                                    <img src="{{ asset('storage/' . $image->image_path) }}"
+                                                                                    <img src="{{ asset('uploads/' . $image->image_path) }}"
                                                                                         class="img-fluid rounded shadow-sm">
                                                                                 </div>
                                                                             @endforeach

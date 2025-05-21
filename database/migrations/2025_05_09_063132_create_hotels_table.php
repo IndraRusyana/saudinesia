@@ -17,6 +17,8 @@ return new class extends Migration {
             $table->text('description')->nullable();
             $table->text('map_url')->nullable();
             $table->foreignId('city_id')->nullable()->constrained('cities')->nullOnDelete();
+            $table->unsignedTinyInteger('stars')->default(3); // Kolom bintang hotel
+            $table->string('meals');
             $table->timestamps();
         });
     }

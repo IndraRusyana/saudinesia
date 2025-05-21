@@ -78,7 +78,7 @@ class HotelController extends Controller
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
                     if ($image) {
-                        $path = $image->store('hotels', 'public');
+                        $path = $image->store('hotels', 'public_uploads');
                         HotelImage::create([
                             'hotel_id' => $hotel->id,
                             'image_path' => $path,
@@ -160,11 +160,11 @@ class HotelController extends Controller
                     // Cek apakah sudah ada image ke-i
                     $existingImage = $hotel->images->get($i - 1); // index dari 0
                     if ($existingImage) {
-                        Storage::disk('public')->delete($existingImage->image_path);
+                        Storage::disk('public_uploads')->delete($existingImage->image_path);
                         $existingImage->delete();
                     }
 
-                    $path = $request->file($inputName)->store('hotels', 'public');
+                    $path = $request->file($inputName)->store('hotels', 'public_uploads');
                     HotelImage::create([
                         'hotel_id' => $hotel->id,
                         'image_path' => $path,
@@ -210,8 +210,8 @@ class HotelController extends Controller
 
             // Hapus gambar dari storage dan database
             foreach ($hotel->images as $image) {
-                if (Storage::disk('public')->exists($image->image_path)) {
-                    Storage::disk('public')->delete($image->image_path);
+                if (Storage::disk('public_uploads')->exists($image->image_path)) {
+                    Storage::disk('public_uploads')->delete($image->image_path);
                 }
                 $image->delete();
             }

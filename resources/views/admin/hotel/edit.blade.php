@@ -90,7 +90,7 @@
                                                         <input type="file" name="image{{ $i }}"
                                                             class="form-control mb-1">
                                                         @if ($image)
-                                                            <img src="{{ asset('storage/' . $image->image_path) }}"
+                                                            <img src="{{ asset('uploads/' . $image->image_path) }}"
                                                                 class="img-thumbnail" width="150">
                                                         @else
                                                             <img src="https://via.placeholder.com/150x100?text=No+Image"

@@ -20,7 +20,7 @@ class HajiController extends Controller
             ['label' => 'Haji', 'url' => null], // Aktif / halaman saat ini
         ];
 
-        return view('user.paketHaji', compact('home', 'breadcrumbs', 'query'));
+        return view('user.haji.index', compact('home', 'breadcrumbs', 'query'));
     }
 
     public function detail($id)
@@ -31,6 +31,8 @@ class HajiController extends Controller
 
         $haji = Haji::findOrFail($id);
 
-        return view('user.detailHaji', compact('home', 'breadcrumbs', 'haji'));
+        $item = $haji;
+
+        return view('user.haji.detail', compact('home', 'breadcrumbs', 'haji', 'item'));
     }
 }

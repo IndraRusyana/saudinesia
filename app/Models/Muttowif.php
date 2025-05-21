@@ -21,4 +21,9 @@ class Muttowif extends Model
     {
         return $this->created_at;
     }
+
+    public function transactions()
+    {
+        return $this->morphMany(Transaction::class, 'transactionable');
+    }
 }

@@ -26,6 +26,7 @@ return new class extends Migration {
             $table->string('no_paspor')->nullable();
             $table->date('paspor_terbit')->nullable();
             $table->date('paspor_kadaluarsa')->nullable();
+            $table->string('wilayah_terbit')->nullable();
 
             // Penerbangan
             $table->date('tanggal_berangkat')->nullable();
@@ -49,6 +50,8 @@ return new class extends Migration {
             $table->string('lampiran_kk')->nullable();
             $table->string('lampiran_tiket')->nullable();
             $table->string('lampiran_hotel')->nullable();
+
+            $table->boolean('is_self')->default(true);
 
             $table->timestamps();
         });

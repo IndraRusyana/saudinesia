@@ -23,15 +23,20 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        $this->call(UserAndAdminSeeder::class);
-        $this->call(RoomtypeSeeder::class);
-        $this->call(CityAndPeriodSeeder::class);
-        $this->call(InformationSeeder::class);
-        $this->call(HajiSeeder::class);
-        $this->call(UmrohSeeder::class);
-        $this->call(HotelSeeder::class);
-        $this->call(TransportSeeder::class);
-        $this->call(MuttowifSeeder::class);
-        $this->call(VisaSeeder::class);
+        $this->call([
+            UserAndAdminSeeder::class, 
+            RoomTypeSeeder::class, 
+            CityAndPeriodSeeder::class, 
+            InformationSeeder::class, 
+            HotelSeeder::class, 
+            TransportSeeder::class, 
+            MuttowifSeeder::class, 
+            VisaSeeder::class,
+            LandArrangementSeeder::class,
+            HajiSeeder::class, 
+            UmrohSeeder::class, 
+            MerchandiseSeeder::class,
+            TransactionSeeder::class
+        ]);
     }
 }

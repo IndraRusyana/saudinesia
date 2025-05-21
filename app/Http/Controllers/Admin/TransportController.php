@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Transport;
 use App\Models\TransportImages;
 use App\Models\TransportPrices;
+use App\Models\TransportRoutes;
 use App\Models\Period;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -20,12 +21,12 @@ class TransportController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
+        $routes = TransportRoutes::all();
         $periodId = $request->query('period_id');
 
         // Ambil semua periode untuk dropdown
         $periods = Period::all();
-
-        $transports = Transport::with(['images', 'prices.period']);
+        $transports = Transport::with(['images', 'prices.period', 'routes']);
 
         if ($periodId) {
             // Filter hanya harga yang sesuai periode
@@ -46,8 +47,9 @@ class TransportController extends Controller
     {
         $user = Auth::user();
         $periods = Period::all(); // Mengambil semua data periode
+        $routes = TransportRoutes::all();
         // Menampilkan view untuk membuat data baru
-        return view('admin.transport.create', compact('user', 'periods'));
+        return view('admin.transport.create', compact('user', 'periods', 'routes'));
     }
 
     /**
@@ -60,7 +62,6 @@ class TransportController extends Controller
             'description' => 'nullable|string',
             'route' => 'required|string',
             'type' => 'required|string',
-            'schedule' => 'required|string',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
             'images' => 'array|max:4',
             'active_periods' => 'nullable|array',
@@ -74,15 +75,14 @@ class TransportController extends Controller
                 'name' => $request->name,
                 'description' => $request->description,
                 'type' => $request->type,
-                'route' => $request->route,
-                'schedule' => $request->schedule,
+                'route_id' => $request->route,
             ]);
 
             // Simpan gambar jika ada
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
                     if ($image) {
-                        $path = $image->store('transports', 'public');
+                        $path = $image->store('transports', 'public_uploads');
                         TransportImages::create([
                             'transport_id' => $transport->id,
                             'image_path' => $path,
@@ -127,12 +127,12 @@ class TransportController extends Controller
      */
     public function edit($id)
     {
-        //
         $user = Auth::user();
         $transport = Transport::with(['images', 'prices'])->findOrFail($id);
         $periods = Period::all();
+        $routes = TransportRoutes::all();
 
-        return view('admin.transport.edit', compact('user', 'transport', 'periods'));
+        return view('admin.transport.edit', compact('user', 'transport', 'periods', 'routes'));
     }
 
     /**
@@ -148,7 +148,6 @@ class TransportController extends Controller
             'description' => 'nullable|string',
             'type' => 'required|string|max:255',
             'route' => 'nullable|string|max:255',
-            'schedule' => 'nullable|string|max:255',
             'image1' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'image2' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'image3' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
@@ -160,20 +159,19 @@ class TransportController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'type' => $request->type,
-            'route' => $request->route,
-            'schedule' => $request->schedule,
+            'route_id' => $request->route,
         ]);
 
         // Simpan gambar baru jika diunggah
         foreach (range(1, 4) as $i) {
             $file = $request->file("image{$i}");
             if ($file) {
-                $path = $file->store('transports', 'public');
+                $path = $file->store('transports', 'public_uploads');
 
                 // Hapus gambar lama jika ada
                 $existingImage = $transport->images->get($i - 1);
                 if ($existingImage) {
-                    Storage::disk('public')->delete($existingImage->image_path);
+                    Storage::disk('public_uploads')->delete($existingImage->image_path);
                     $existingImage->update(['image_path' => $path]);
                 } else {
                     $transport->images()->create(['image_path' => $path]);
@@ -208,8 +206,8 @@ class TransportController extends Controller
 
         // Hapus semua gambar dari storage dan database
         foreach ($transport->images as $image) {
-            if ($image->image_path && Storage::disk('public')->exists($image->image_path)) {
-                Storage::disk('public')->delete($image->image_path);
+            if ($image->image_path && Storage::disk('public_uploads')->exists($image->image_path)) {
+                Storage::disk('public_uploads')->delete($image->image_path);
             }
             $image->delete();
         }

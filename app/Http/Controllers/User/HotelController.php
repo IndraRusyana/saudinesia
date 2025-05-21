@@ -41,7 +41,7 @@ class HotelController extends Controller
         $home = 'hotel';
         $breadcrumbs = [['label' => 'Home', 'url' => '/'], ['label' => 'Layanan', 'url' => null], ['label' => 'Hotel', 'url' => null]];
 
-        return view('user.serviceHotel', compact('hotel', 'home', 'breadcrumbs', 'cities', 'periods', 'cityId', 'periodId'));
+        return view('user.hotel.index', compact('hotel', 'home', 'breadcrumbs', 'cities', 'periods', 'cityId', 'periodId'));
     }
 
     public function detail(Request $request, $id)
@@ -64,7 +64,9 @@ class HotelController extends Controller
         // Ambil data periode untuk ditampilkan
         $selectedPeriod = Period::find($periodId);
 
-        return view('user.detailHotel', compact('home', 'breadcrumbs', 'hotel', 'filteredPrices', 'selectedPeriod'));
+        $item = $hotel;
+
+        return view('user.hotel.detail', compact('home', 'breadcrumbs', 'hotel', 'filteredPrices', 'selectedPeriod','item'));
     }
 
     public function pemesananHotel()
@@ -76,6 +78,8 @@ class HotelController extends Controller
             ['label' => 'Layanan', 'url' => null],
             ['label' => 'Hotel', 'url' => null], // Aktif / halaman saat ini
         ];
+
+
 
         return view('user.pemesananHotel', compact('home', 'breadcrumbs'));
     }

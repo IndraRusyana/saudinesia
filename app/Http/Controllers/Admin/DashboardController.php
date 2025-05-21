@@ -11,7 +11,10 @@ use App\Models\Umroh;
 use App\Models\Hotel;
 use App\Models\Transport;
 use App\Models\Visa;
-use App\Models\Muttowif;;
+use App\Models\Muttowif;
+use App\Models\Merchandise;
+use App\Models\Transaction;
+use App\Models\LandArrangement;
 
 class DashboardController extends Controller
 {
@@ -26,6 +29,9 @@ class DashboardController extends Controller
             'transport' => Transport::count(),
             'visa' => Visa::count(),
             'muttowif' => Muttowif::count(),
+            'merchandise' => Merchandise::count(),
+            'transactions' => Transaction::count(),
+            'landArrangements' => LandArrangement::count(),
             'visaLatest' => Visa::latest()->take(5)->get(),
             'muttowifList' => Muttowif::with('user')->latest()->take(5)->get(),
             'user' => $user,

@@ -1,31 +1,27 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\User\UserController;
-use App\Http\Controllers\User\HajiController;
-use App\Http\Controllers\User\UmrohController;
-use App\Http\Controllers\User\HotelController;
-use App\Http\Controllers\User\TransportController;
-use App\Http\Controllers\User\VisaController;
-use App\Http\Controllers\User\MuttowifController;
-use App\Http\Controllers\User\LoginController;
-use App\Http\Controllers\User\RegisterController;
-use App\Http\Controllers\Admin\PeriodController;
-use App\Http\Controllers\Admin\CitiesController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\AuthController as AdminAuthController;
-use App\Http\Controllers\Admin\HajiController as AdminHajiController;
-use App\Http\Controllers\Admin\UmrohController as AdminUmrohController;
-use App\Http\Controllers\Admin\HotelController as AdminHotelController;
-use App\Http\Controllers\Admin\InformationsController as AdminInformationsController;
-use App\Http\Controllers\Admin\TransportController as AdminTransportController;
-use App\Http\Controllers\Admin\MuttowifController as AdminMuttowifController;
-use App\Http\Controllers\Admin\VisaController as AdminVisaController;
-use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\User\{
+    UserController, HajiController, UmrohController, HotelController,
+    TransportController, VisaController, MuttowifController, InformationsController,
+    MerchandiseController, ProfileController, CartController, TransactionController,
+    OrderController, InvoiceController, LoginController, RegisterController
+};
+use App\Http\Controllers\Admin\{
+    PeriodController, CitiesController, RouteController, DashboardController, AuthController as AdminAuthController,
+    HajiController as AdminHajiController, UmrohController as AdminUmrohController,
+    HotelController as AdminHotelController, InformationsController as AdminInformationsController,
+    TransportController as AdminTransportController, MuttowifController as AdminMuttowifController,
+    VisaController as AdminVisaController, UserController as AdminUserController,
+    MerchandiseController as AdminMerchandiseController, TransactionController as AdminTransactionController,
+    LandArrangementController
+};
 
 // User Public Routes
 Route::get('/', [UserController::class, 'index'])->name('user.home');
-Route::get('/informasi', [UserController::class, 'informasi'])->name('user.informasi');
+
+Route::get('/informasi', [InformationsController::class, 'index'])->name('user.informasi.index');
+Route::get('/informasi/detail/{id}', [InformationsController::class, 'detail'])->name('user.informasi.detail');
 
 Route::get('/haji', [HajiController::class, 'index'])->name('user.haji.index');
 Route::get('/haji/detail/{id}', [HajiController::class, 'detail'])->name('user.haji.detail');
@@ -39,6 +35,9 @@ Route::get('/hotel/pemesanan', [HotelController::class, 'pemesananHotel'])->name
 
 Route::get('/transport', [TransportController::class, 'index'])->name('user.transport.index');
 Route::get('/transport/detail/{id}', [TransportController::class, 'detail'])->name('user.transport.detail');
+
+Route::get('/merchandise', [MerchandiseController::class, 'index'])->name('user.merchandise.index');
+Route::get('/merchandise/detail/{id}', [MerchandiseController::class, 'detail'])->name('user.merchandise.detail');
 
 // Admin Login Routes (only for non-authenticated admin)
 Route::group(['middleware' => 'guest:admin'], function () {
@@ -83,6 +82,14 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/admin/kota/{id}', [CitiesController::class, 'edit'])->name('admin.cities.edit');
     Route::put('/admin/kota/{id}', [CitiesController::class, 'update'])->name('admin.cities.update');
     Route::delete('/admin/kota/{id}', [CitiesController::class, 'destroy'])->name('admin.cities.destroy');
+
+    // admin route
+    Route::get('/admin/rute', [RouteController::class, 'index'])->name('admin.routes.index');
+    Route::get('/admin/rute-tambah', [RouteController::class, 'create'])->name('admin.routes.tambah');
+    Route::post('/admin/rute', [RouteController::class, 'store'])->name('admin.routes.store');
+    Route::get('/admin/rute/{id}', [RouteController::class, 'edit'])->name('admin.routes.edit');
+    Route::put('/admin/rute/{id}', [RouteController::class, 'update'])->name('admin.routes.update');
+    Route::delete('/admin/rute/{id}', [RouteController::class, 'destroy'])->name('admin.routes.destroy');
 
     // admin paket haji
     Route::get('/admin/paket/haji', [AdminHajiController::class, 'index'])->name('admin.haji.index');
@@ -132,11 +139,29 @@ Route::middleware(['auth:admin'])->group(function () {
     // Route::put('/admin/layanan/visa/{id}', [AdminVisaController::class, 'update'])->name('admin.visa.update');
     // Route::delete('/admin/layanan/visa/{id}', [AdminVisaController::class, 'destroy'])->name('admin.visa.destroy');
 
+    Route::get('/admin/transactions', [AdminTransactionController::class, 'index'])->name('admin.transactions.index');
+    Route::post('/admin/transactions/{transaction}/verify', [AdminTransactionController::class, 'verify'])->name('admin.transactions.verify');
+
+    // admin paket Merchandise
+    Route::get('/admin/merchandise', [AdminMerchandiseController::class, 'index'])->name('admin.merchandise.index');
+    Route::get('/admin/merchandise-tambah', [AdminMerchandiseController::class, 'create'])->name('admin.merchandise.tambah');
+    Route::post('/admin/merchandise', [AdminMerchandiseController::class, 'store'])->name('admin.merchandise.store');
+    Route::get('/admin/merchandise/{id}', [AdminMerchandiseController::class, 'edit'])->name('admin.merchandise.edit');
+    Route::put('/admin/merchandise/{id}', [AdminMerchandiseController::class, 'update'])->name('admin.merchandise.update');
+    Route::delete('/admin/merchandise/{id}', [AdminMerchandiseController::class, 'destroy'])->name('admin.merchandise.destroy');
+
+    // admin LA
+    Route::Resource('land-arrangements', LandArrangementController::class);
+
     Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 });
 
 // User Protected Routes
 Route::middleware(['auth:user'])->group(function () {
+    Route::resource('profiles', ProfileController::class);
+    Route::put('/profiles/update', [ProfileController::class, 'update'])->name('profiles.update');
+
+    Route::resource('carts', CartController::class)->only(['index', 'store', 'destroy']);
 
     Route::post('/logout', [LoginController::class, 'logout'])->name('user.logout');
 
@@ -149,4 +174,16 @@ Route::middleware(['auth:user'])->group(function () {
     Route::get('/checkout', [UserController::class, 'checkout'])->name('user.checkout');
     Route::get('/invoice', [UserController::class, 'invoice'])->name('user.invoice');
     Route::get('/upload-payment', [UserController::class, 'uploadPayment'])->name('user.uploadPayment');
+
+    Route::post('/checkout', [OrderController::class, 'confirm'])->name('checkout.confirm');
+    Route::post('/checkout/confirm', [OrderController::class, 'confirmMultiple'])->name('checkout.confirm.multiple');
+    Route::post('/checkout/multiple', [OrderController::class, 'checkoutMultiple'])->name('checkout.multiple');
+
+    Route::post('/invoice/generate', [InvoiceController::class, 'store'])->name('invoice.generate');
+    Route::get('/invoice/show/{transaction}', [InvoiceController::class, 'show'])->name('invoice.show');
+    Route::get('/invoice/{transaction}/upload', [InvoiceController::class, 'uploadForm'])->name('invoice.upload.form');
+    Route::post('/invoice/{transaction}/upload', [InvoiceController::class, 'upload'])->name('invoice.upload');
+    Route::post('/checkout/multiple', [InvoiceController::class, 'generateMultiple'])->name('checkout.multiple');
+
+    Route::resource('/pesanan', TransactionController::class);
 });

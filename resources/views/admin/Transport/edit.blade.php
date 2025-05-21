@@ -66,18 +66,17 @@
                                         </div>
 
                                         <div class="mb-3 row">
-                                            <label class="col-sm-2 col-form-label">Rute</label>
+                                            <label for="route" class="col-sm-2 form-label">Rute</label>
                                             <div class="col-sm-10">
-                                                <input type="text" name="route" class="form-control"
-                                                    value="{{ old('name', $transport->route) }}">
-                                            </div>
-                                        </div>
-
-                                        <div class="mb-3 row">
-                                            <label class="col-sm-2 col-form-label">Jadwal</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" name="schedule" class="form-control"
-                                                    value="{{ old('name', $transport->schedule) }}">
+                                                <select name="route" id="route" class="form-select" required>
+                                                    <option value="">-- Pilih Rute --</option>
+                                                    @foreach ($routes as $item)
+                                                        <option value="{{ $item->id }}"
+                                                            {{ $transport->route_id == $item->id ? 'selected' : ''}}>
+                                                            {{ $item->routes }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
 
@@ -94,7 +93,7 @@
                                                         <input type="file" name="image{{ $i }}"
                                                             class="form-control mb-1">
                                                         @if ($image)
-                                                            <img src="{{ asset('storage/' . $image->image_path) }}"
+                                                            <img src="{{ asset('uploads/' . $image->image_path) }}"
                                                                 class="img-thumbnail" width="150">
                                                         @else
                                                             <img src="https://via.placeholder.com/150x100?text=No+Image"

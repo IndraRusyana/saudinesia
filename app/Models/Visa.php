@@ -17,6 +17,7 @@ class Visa extends Model
         'no_paspor',
         'paspor_terbit',
         'paspor_kadaluarsa',
+        'wilayah_terbit',
         'tanggal_berangkat',
         'maskapai_berangkat',
         'no_penerbangan_berangkat',
@@ -35,5 +36,10 @@ class Visa extends Model
         'lampiran_tiket',
         'lampiran_hotel',
     ];
+
+    public function transactions()
+    {
+        return $this->morphMany(Transaction::class, 'transactionable');
+    }
 
 }

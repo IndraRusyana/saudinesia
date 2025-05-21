@@ -54,24 +54,27 @@
                                         <div class="mb-3 row">
                                             <label class="col-sm-2 col-form-label">Tipe Transport</label>
                                             <div class="col-sm-10">
-                                                <input type="text" name="type" class="form-control"
-                                                    placeholder="Contoh: Bus / Mobil / Pesawat" required>
+                                                <select name="type" id="type" class="form-select" required>
+                                                    <option value="">-- Tipe Kendaraan --</option>
+                                                    <option value="Bus">Bus</option>
+                                                    <option value="Van">Van</option>
+                                                    <option value="Sedan">Sedan</option>
+                                                </select>
                                             </div>
                                         </div>
 
                                         <div class="mb-3 row">
-                                            <label class="col-sm-2 col-form-label">Rute</label>
+                                            <label for="route" class="col-sm-2 form-label">Rute</label>
                                             <div class="col-sm-10">
-                                                <input type="text" name="route" class="form-control"
-                                                    placeholder="Contoh: Makkah - Madinah" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="mb-3 row">
-                                            <label class="col-sm-2 col-form-label">Jadwal</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" name="schedule" class="form-control"
-                                                    placeholder="Contoh: Setiap Hari Pukul 07:00" required>
+                                                <select name="route" id="route" class="form-select" required>
+                                                    <option value="">-- Pilih Rute --</option>
+                                                    @foreach ($routes as $item)
+                                                        <option value="{{ $item->id }}"
+                                                            {{ old('route', $transports->route_id ?? '') == $item->id ? 'selected' : '' }}>
+                                                            {{ $item->routes }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
 

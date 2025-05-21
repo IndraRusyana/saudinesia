@@ -19,7 +19,7 @@ class MuttowifController extends Controller
             ['label' => 'Muttowif', 'url' => null], // Aktif / halaman saat ini
         ];
 
-        return view('user.serviceMuttowif', compact('home', 'breadcrumbs'));
+        return view('user.muttowif.index', compact('home', 'breadcrumbs'));
     }
 
     public function store(Request $request)

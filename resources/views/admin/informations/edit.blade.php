@@ -64,7 +64,7 @@
                                                 <div class="row">
                                                     <div class="col-sm-4">
                                                         @if ($informations->images)
-                                                            <img src="{{ asset('storage/' . $informations->images) }}" alt="Current Images"
+                                                            <img src="{{ asset('uploads/' . $informations->images) }}" alt="Current Images"
                                                                 class="img-thumbnail mt-2" width="150">
                                                         @endif
                                                     </div>

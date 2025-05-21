@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Umroh;
+use App\Models\LandArrangement;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,7 +19,7 @@ class UmrohController extends Controller
         //
         $user = Auth::user();
         $query = Umroh::paginate(8);
-        return view('admin.umroh', compact('query', 'user'));
+        return view('admin.umroh.index', compact('query', 'user'));
     }
 
     /**
@@ -28,7 +29,8 @@ class UmrohController extends Controller
     {
         $user = Auth::user();
         // Menampilkan view untuk membuat data baru
-        return view('admin.umroh_tambah', compact('user'));
+        $landArrangements = LandArrangement::all(); // ambil semua data LA
+        return view('admin.umroh.create', compact('user', 'landArrangements'));
     }
 
     /**
@@ -42,25 +44,27 @@ class UmrohController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required',
-            'price' => 'required|numeric',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'prices' => 'required|numeric',
+            'images' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'land_arrangement_id' => 'required|exists:land_arrangements,id',
         ]);
 
         // Mendapatkan file gambar yang diupload
-        $file = $request->file('image');
+        $file = $request->file('images');
 
         // Mengganti nama file dengan format yang diinginkan
         $fileName = time() . '_' . $file->getClientOriginalName();
 
         // Menyimpan file gambar ke storage dengan nama baru
-        $imagePath = $file->storeAs('images', $fileName, 'public');
+        $imagePath = $file->storeAs('images', $fileName, 'public_uploads');
 
         // Membuat instance baru dari model umroh
         $umroh = new Umroh();
         $umroh->name = $request->input('name');
         $umroh->description = $request->input('description');
-        $umroh->price = $request->input('price');
-        $umroh->image = $imagePath;
+        $umroh->prices = $request->input('prices');
+        $umroh->land_arrangement_id = $request->input('land_arrangement_id');
+        $umroh->images = $imagePath;
 
         // Menyimpan data ke database
         $umroh->save();
@@ -75,11 +79,14 @@ class UmrohController extends Controller
     public function edit($id)
     {
         $user = Auth::user();
+        $landArrangements = LandArrangement::all();
         // Temukan data berdasarkan ID
         $umroh = Umroh::findOrFail($id);
+        $la_id = $umroh->land_arrangement_id;
+        $la_data = LandArrangement::findOrFail($la_id); // ambil semua data LA
 
         // Kembalikan view dengan data yang ditemukan
-        return view('admin.umroh_edit', compact('umroh', 'user'));
+        return view('admin.umroh.edit', compact('umroh', 'user', 'landArrangements', 'la_data'));
     }
 
     /**
@@ -91,8 +98,9 @@ class UmrohController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required',
-            'price' => 'required|numeric',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'prices' => 'required|numeric',
+            'images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'land_arrangement_id' => 'required|exists:land_arrangements,id',
         ]);
 
         // Temukan data berdasarkan ID
@@ -101,27 +109,27 @@ class UmrohController extends Controller
         // Update nama
         $umroh->name = $request->input('name');
         $umroh->description = $request->input('description');
-        $umroh->price = $request->input('price');
-
+        $umroh->prices = $request->input('prices');
+        $umroh->land_arrangement_id = $request->input('land_arrangement_id');
 
         // Jika ada gambar baru yang diupload
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('images')) {
             // Hapus gambar lama jika ada
             if ($umroh->images) {
-                Storage::disk('public')->delete($umroh->images);
+                Storage::disk('public_uploads')->delete($umroh->images);
             }
 
             // Mendapatkan file gambar yang diupload
-            $file = $request->file('image');
+            $file = $request->file('images');
 
             // Mengganti nama file dengan format yang diinginkan
             $fileName = time() . '_' . $file->getClientOriginalName();
 
             // Menyimpan file gambar ke storage dengan nama baru
-            $imagePath = $file->storeAs('images', $fileName, 'public');
+            $imagePath = $file->storeAs('images', $fileName, 'public_uploads');
 
             // Update path gambar di database
-            $umroh->image = $imagePath;
+            $umroh->images = $imagePath;
         }
 
         // Simpan perubahan ke database
@@ -141,7 +149,7 @@ class UmrohController extends Controller
 
         // Hapus gambar dari storage jika ada
         if ($umroh->image) {
-            Storage::disk('public')->delete($umroh->image);
+            Storage::disk('public_uploads')->delete($umroh->image);
         }
 
         // Hapus data dari database

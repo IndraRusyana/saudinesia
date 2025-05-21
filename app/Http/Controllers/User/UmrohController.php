@@ -20,7 +20,7 @@ class UmrohController extends Controller
             ['label' => 'Umroh', 'url' => null], // Aktif / halaman saat ini
         ];
 
-        return view('user.paketUmroh',  compact('home', 'breadcrumbs','query'));
+        return view('user.umroh.index',  compact('home', 'breadcrumbs','query'));
     }
 
     public function detail($id)
@@ -35,6 +35,8 @@ class UmrohController extends Controller
 
         $umroh = Umroh::findOrFail($id);
 
-        return view('user.detailUmroh',  compact('home', 'breadcrumbs', 'umroh'));
+        $item = $umroh;
+
+        return view('user.umroh.detail',  compact('home', 'breadcrumbs', 'umroh', 'item'));
     }
 }

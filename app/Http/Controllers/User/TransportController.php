@@ -40,7 +40,7 @@ class TransportController extends Controller
             ['label' => 'Transport', 'url' => null], // Aktif / halaman saat ini
         ];
 
-        return view('user.serviceTransport', compact('transport', 'home', 'breadcrumbs', 'periods', 'periodId'));
+        return view('user.transport.index', compact('transport', 'home', 'breadcrumbs', 'periods', 'periodId'));
     }
 
     public function detail(Request $request, $id)
@@ -53,7 +53,7 @@ class TransportController extends Controller
             ['label' => 'Transport', 'url' => null], // Aktif / halaman saat ini
         ];
 
-        $transport = Transport::with(['images', 'prices.period'])->findOrFail($id);
+        $transport = Transport::with(['images', 'prices.period', 'routes'])->findOrFail($id);
         $periodId = $request->query('period_id') ?? $transport->prices->first()?->period_id;
 
         // Filter harga hanya untuk periode tertentu
@@ -62,6 +62,8 @@ class TransportController extends Controller
         // Ambil data periode untuk ditampilkan
         $selectedPeriod = Period::find($periodId);
 
-        return view('user.detailTransport', compact('home', 'breadcrumbs', 'transport', 'filteredPrices', 'selectedPeriod'));
+        $item = $transport;
+
+        return view('user.transport.detail', compact('home', 'breadcrumbs', 'transport', 'filteredPrices', 'selectedPeriod', 'item'));
     }
 }

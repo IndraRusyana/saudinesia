@@ -34,7 +34,7 @@
                         @forelse ($query as $index => $item)
                             <div class="col-lg-3">
                                 <div class="card mb-3">
-                                    <img class="card-img-top" src="{{ asset('storage/' . $item->images) }}" alt="Card image cap">
+                                    <img class="card-img-top" src="{{ asset('uploads/' . $item->images) }}" alt="Card image cap">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ $item->title }}</h5>
                                         <p class="card-text">{{ Str::limit($item->content, 100, '...') }}</p>

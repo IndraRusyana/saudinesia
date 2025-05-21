@@ -49,7 +49,7 @@ class InformationsController extends Controller
         $fileName = time() . '_' . $file->getClientOriginalName();
 
         // Menyimpan file gambar ke storage dengan nama baru
-        $imagePath = $file->storeAs('images', $fileName, 'public');
+        $imagePath = $file->storeAs('images', $fileName, 'public_uploads');
 
         Informations::create([
             'title' => $request->title,
@@ -93,7 +93,7 @@ class InformationsController extends Controller
         if ($request->hasFile('images')) {
             // Hapus gambar lama jika ada
             if ($informations->images) {
-                Storage::disk('public')->delete($informations->images);
+                Storage::disk('public_uploads')->delete($informations->images);
             }
 
             // Mendapatkan file gambar yang diupload
@@ -103,7 +103,7 @@ class InformationsController extends Controller
             $fileName = time() . '_' . $file->getClientOriginalName();
 
             // Menyimpan file gambar ke storage dengan nama baru
-            $imagePath = $file->storeAs('images', $fileName, 'public');
+            $imagePath = $file->storeAs('images', $fileName, 'public_uploads');
         }
 
 
@@ -128,7 +128,7 @@ class InformationsController extends Controller
 
         // Hapus gambar dari storage jika ada
         if ($informations->image) {
-            Storage::disk('public')->delete($informations->image);
+            Storage::disk('public_uploads')->delete($informations->image);
         }
 
         // Hapus data dari database

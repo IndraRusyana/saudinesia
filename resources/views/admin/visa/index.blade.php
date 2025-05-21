@@ -66,7 +66,7 @@
                                         {{-- Lampiran File --}}
                                         <td>
                                             @if ($item->lampiran_ktp)
-                                                <a class="btn btn-sm btn-outline-primary" href="{{ asset('storage/' . $item->lampiran_ktp) }}"
+                                                <a class="btn btn-sm btn-outline-primary" href="{{ asset('uploads/' . $item->lampiran_ktp) }}"
                                                     target="_blank">Lihat</a>
                                             @else
                                                 -
@@ -74,7 +74,7 @@
                                         </td>
                                         <td>
                                             @if ($item->lampiran_paspor)
-                                                <a class="btn btn-sm btn-outline-primary" href="{{ asset('storage/' . $item->lampiran_paspor) }}"
+                                                <a class="btn btn-sm btn-outline-primary" href="{{ asset('uploads/' . $item->lampiran_paspor) }}"
                                                     target="_blank">Lihat</a>
                                             @else
                                                 -
@@ -82,7 +82,7 @@
                                         </td>
                                         <td>
                                             @if ($item->lampiran_kk)
-                                                <a class="btn btn-sm btn-outline-primary" href="{{ asset('storage/' . $item->lampiran_kk) }}"
+                                                <a class="btn btn-sm btn-outline-primary" href="{{ asset('uploads/' . $item->lampiran_kk) }}"
                                                     target="_blank">Lihat</a>
                                             @else
                                                 -
@@ -90,7 +90,7 @@
                                         </td>
                                         <td>
                                             @if ($item->lampiran_tiket)
-                                                <a class="btn btn-sm btn-outline-primary" href="{{ asset('storage/' . $item->lampiran_tiket) }}"
+                                                <a class="btn btn-sm btn-outline-primary" href="{{ asset('uploads/' . $item->lampiran_tiket) }}"
                                                     target="_blank">Lihat</a>
                                             @else
                                                 -
@@ -98,7 +98,7 @@
                                         </td>
                                         <td>
                                             @if ($item->lampiran_hotel)
-                                                <a class="btn btn-sm btn-outline-primary" href="{{ asset('storage/' . $item->lampiran_hotel) }}"
+                                                <a class="btn btn-sm btn-outline-primary" href="{{ asset('uploads/' . $item->lampiran_hotel) }}"
                                                     target="_blank">Lihat</a>
                                             @else
                                                 -

@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->longText('description');
-            $table->string('price');
-            $table->string('image');
+            $table->string('prices');
+            $table->string('images');
+            $table->foreignId('land_arrangement_id')->nullable()->constrained('land_arrangements')->nullOnDelete();
             $table->timestamps();
         });
     }

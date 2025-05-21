@@ -9,9 +9,14 @@ class Period extends Model
 {
     protected $fillable = ['name', 'start_date', 'end_date'];
 
-    public function prices()
+    public function hotelPrices()
     {
         return $this->hasMany(HotelPrice::class);
+    }
+
+    public function transportPrices()
+    {
+        return $this->hasMany(TransportPrices::class);
     }
 
     public function getFormattedStartDateAttribute()

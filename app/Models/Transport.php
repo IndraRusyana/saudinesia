@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Transport extends Model
 {
     //
-    protected $fillable = ['name', 'description', 'type', 'route', 'schedule'];
+    protected $fillable = ['name', 'description', 'type','route_id'];
 
     public function images()
     {
@@ -22,5 +22,15 @@ class Transport extends Model
     public function periods()
     {
         return $this->hasMany(Period::class);
+    }
+
+    public function routes()
+    {
+        return $this->belongsTo(TransportRoutes::class, 'route_id');
+    }
+
+    public function transactions()
+    {
+        return $this->morphMany(Transaction::class, 'transactionable');
     }
 }

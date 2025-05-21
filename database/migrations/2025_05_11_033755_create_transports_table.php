@@ -14,9 +14,8 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->string('route'); // contoh: "Bandung - Jakarta"
             $table->string('type');
-            $table->string('schedule'); // contoh: "Setiap Hari Pukul 07:00"
+            $table->foreignId('route_id')->nullable()->constrained('transport_routes')->nullOnDelete();
             $table->timestamps();
         });
     }

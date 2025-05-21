@@ -17,8 +17,9 @@
     <div class="site-navigation">
         <div class="row">
             <div class="col-6 col-lg-3">
-                <a href="index.html" class="logo m-0 float-start"><img src="{{asset('assets/user/images/LOGO_SAUDINESIA.png')}}"
-                        alt="" srcset="" width="120"></a>
+                <a href="index.html" class="logo m-0 float-start"><img
+                        src="{{ asset('assets/user/images/LOGO_SAUDINESIA.png') }}" alt="" srcset=""
+                        width="120"></a>
             </div>
             <div class="col-lg-6 d-none d-lg-inline-block text-center nav-center-wrap">
                 <ul class="js-clone-nav  text-center site-menu p-0 m-0">
@@ -34,7 +35,7 @@
                     </li>
                     <li class="has-children">
                         <a href="#"
-                            class="{{ $home == 'hotel' || $home == 'transport' || $home == 'muttowif' || $home == 'visa' ? 'active-2' : '' }}"
+                            class="{{ $home == 'hotel' || $home == 'transport' || $home == 'muttowif' || $home == 'visa' || $home == 'merchandise' ? 'active-2' : '' }}"
                             style="font-weight: 600">Layanan</a>
                         <ul class="dropdown">
                             <li class="{{ request()->is('hotel') ? 'active-2' : '' }}"><a href="/hotel">Hotel</a></li>
@@ -43,6 +44,8 @@
                             <li class="{{ request()->is('muttowif') ? 'active-2' : '' }}"><a
                                     href="/muttowif">Muttowif</a></li>
                             <li class="{{ request()->is('visa') ? 'active-2' : '' }}"><a href="/visa">Visa</a></li>
+                            <li class="{{ request()->is('merchandise') ? 'active-2' : '' }}"><a
+                                    href="/merchandise">Merchandise</a></li>
                         </ul>
                     </li>
                     <li><a href="/informasi" class="{{ $home == 'informasi' ? 'active-2' : '' }}"
@@ -67,16 +70,38 @@
                 @endguest
 
                 @auth('user')
-                    {{-- Tombol logout untuk user yang sudah login --}}
-                    <form method="POST" action="{{ route('user.logout') }}">
-                        @csrf
-                        <a class="btn btn-outline-warning" href="{{ route('user.logout') }}"
-                            onclick="event.preventDefault(); this.closest('form').submit();">
-                            {{-- <i class="bx bx-power-off me-2"></i> --}}
-                            <span class="align-middle">{{ __('Log Out') }}</span>
+                    {{-- Dropdown menu user --}}
+                    <div class="dropdown d-none d-lg-inline-block">
+                        <a class="btn btn-light dropdown-toggle {{ $home !== 'home' ? 'btn-dark' : '' }} px-3 py-2"
+                            href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                           {{ Auth::guard('user')->user()->profile->nama_lengkap }}
                         </a>
-                    </form>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li>
+                                <a class="dropdown-item {{ $home == 'profile' ? 'active-2' : '' }}"
+                                    href="/profiles">Profile</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item {{ $home == 'cart' ? 'active-2' : '' }}"
+                                    href="/carts">Keranjang</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item {{ $home == 'pesanan' ? 'active-2' : '' }}"
+                                    href="/pesanan">Pesanan Saya</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <form method="POST" action="{{ route('user.logout') }}">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item text-danger">Logout</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
                 @endauth
+
 
                 <a href="#"
                     class="burger ms-auto float-end site-menu-toggle js-menu-toggle d-inline-block d-lg-none light"

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Hotel extends Model
 {
     //
-    protected $fillable = ['name', 'address', 'description', 'map_url','city_id'];
+    protected $fillable = ['name', 'address', 'description', 'map_url', 'city_id', 'stars', 'meals'];
 
     public function images()
     {
@@ -27,5 +27,15 @@ class Hotel extends Model
     public function city()
     {
         return $this->belongsTo(Cities::class, 'city_id');
+    }
+
+    public function transactions()
+    {
+        return $this->morphMany(Transaction::class, 'transactionable');
+    }
+
+    public function landArrangements()
+    {
+        return $this->morphMany(LandArrangement::class, 'serviceable');
     }
 }

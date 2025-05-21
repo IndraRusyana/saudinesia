@@ -66,8 +66,27 @@
                                     'icon' => 'bi-person-check',
                                     'bg' => 'dark',
                                 ],
+                                [
+                                    'title' => 'Total Merchandise',
+                                    'count' => $merchandise,
+                                    'icon' => 'bi-bag',
+                                    'bg' => 'info',
+                                ],
+                                [
+                                    'title' => 'Total Transaksi',
+                                    'count' => $transactions,
+                                    'icon' => 'bi-receipt',
+                                    'bg' => 'success',
+                                ],
+                                [
+                                    'title' => 'Total Land Arrangement',
+                                    'count' => $landArrangements,
+                                    'icon' => 'bi-geo-alt',
+                                    'bg' => 'primary',
+                                ],
                             ];
                         @endphp
+
 
                         @foreach ($cards as $card)
                             <div class="col-md-3 mb-3">

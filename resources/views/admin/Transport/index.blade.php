@@ -61,7 +61,6 @@
                                     <th>Tipe kendaraan</th>
                                     <th>Rute</th>
                                     <th>Gambar</th>
-                                    <th>Jadwal</th>
                                     <th>Harga</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -73,7 +72,7 @@
                                         <td>{{ $transport->name }}</td>
                                         <td>{{ Str::limit($transport->description, 100) }}</td>
                                         <td>{{ $transport->type }}</td>
-                                        <td>{{ $transport->route }}</td>
+                                        <td>{{ $transport->routes->routes }}</td>
                                         <td>
                                             @if ($transport->images->count() > 0)
                                                 <!-- Tombol untuk membuka modal -->
@@ -100,7 +99,7 @@
                                                                 <div class="row">
                                                                     @foreach ($transport->images as $image)
                                                                         <div class="col-md-4 mb-3">
-                                                                            <img src="{{ asset('storage/' . $image->image_path) }}"
+                                                                            <img src="{{ asset('uploads/' . $image->image_path) }}"
                                                                                 class="img-fluid rounded shadow-sm">
                                                                         </div>
                                                                     @endforeach
@@ -117,7 +116,6 @@
                                                 <span class="text-muted">Tidak ada gambar</span>
                                             @endif
                                         </td>
-                                        <td>{{ $transport->schedule }}</td>
                                         <td>
                                             @php $grouped = $transport->prices->groupBy('period.name'); @endphp
                                             @foreach ($grouped as $period => $prices)

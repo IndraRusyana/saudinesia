@@ -10,6 +10,7 @@ use App\Models\HotelPrice;
 use App\Models\RoomType;
 use App\Models\Period;
 use App\Models\Cities;
+use Illuminate\Support\Arr;
 
 class HotelSeeder extends Seeder
 {
@@ -30,6 +31,8 @@ class HotelSeeder extends Seeder
                 'description' => 'Deskripsi hotel ' . $i . ' - Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
                 'map_url' => 'https://maps.google.com/?q=Hotel+' . $i,
                 'city_id' => $cities->random()->id,
+                'stars' => rand(1, 5), // Bintang hotel
+                'meals' => Arr::random(['Full Board (FB)', '(RO) Room Only', '(BnB) Bread & Breakfast']),
             ]);
 
             // Buat 2 gambar untuk setiap hotel
