@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Transaction;
 use App\Models\TransactionItem;
+use App\Models\Merchandise;
 use Illuminate\Support\Facades\Auth;
 
 class InvoiceController extends Controller
@@ -16,6 +17,17 @@ class InvoiceController extends Controller
         $itemable = app($request->itemable_type)::findOrFail($request->itemable_id);
 
         $total = $request->quantity * $request->unit_price;
+
+        // Jika tipe item adalah Merchandise
+        if ($itemable instanceof Merchandise) {
+            if ($itemable->stock < $request->quantity) {
+                return back()->with('error', 'Stok tidak mencukupi untuk jumlah yang dipesan.');
+            }
+
+            // Kurangi stok
+            $itemable->stock -= $request->quantity;
+            $itemable->save();
+        }
 
         $transaction = Transaction::create([
             'user_id' => auth()->id(),
@@ -105,6 +117,19 @@ class InvoiceController extends Controller
             return $cart->quantity * $cart->unit_price;
         });
 
+        // Cek stok terlebih dahulu
+        foreach ($carts as $cart) {
+            if ($cart->itemable_type === Merchandise::class) {
+                $merchandise = Merchandise::find($cart->itemable_id);
+
+                if (!$merchandise || $merchandise->stock < $cart->quantity) {
+                    return redirect()
+                        ->back()
+                        ->with('error', "Stok untuk item {$cart->description} tidak mencukupi.");
+                }
+            }
+        }
+
         $transaction = Transaction::create([
             'user_id' => auth()->id(),
             'invoice_number' => 'INV-' . now()->format('YmdHis') . rand(100, 999),
@@ -113,6 +138,15 @@ class InvoiceController extends Controller
         ]);
 
         foreach ($carts as $cart) {
+            // Kurangi stok jika item adalah Merchandise
+            if ($cart->itemable_type === Merchandise::class) {
+                $merchandise = Merchandise::find($cart->itemable_id);
+                if ($merchandise) {
+                    $merchandise->stock -= $cart->quantity;
+                    $merchandise->save();
+                }
+            }
+
             TransactionItem::create([
                 'transaction_id' => $transaction->id,
                 'itemable_type' => $cart->itemable_type,

@@ -72,7 +72,7 @@
                                         <div class="mt-3 text-end">
                                             <a href="{{ route('invoice.show', $transaction->id) }}"
                                                 class="btn btn-success">
-                                                Upload Bukti Pembayaran
+                                                Bayar
                                             </a>
                                         </div>
                                     @endif

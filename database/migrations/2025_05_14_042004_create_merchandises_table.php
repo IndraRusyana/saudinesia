@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('images');
             $table->text('description');
             $table->decimal('prices', 10, 2); // format harga
+            $table->integer('stock')->default(0); // Tambahkan kolom stok
             $table->timestamps();
         });
     }

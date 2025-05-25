@@ -111,7 +111,8 @@
             <div class="d-grid gap-2">
                 <button type="button" class="btn btn-social">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
-                        alt="Google"> Sign in with Google
+                        alt="Google">
+                        <a href="{{ route('auth.google') }}">Sign in with Google</a> 
                 </button>
                 <button type="button" class="btn btn-social">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple">

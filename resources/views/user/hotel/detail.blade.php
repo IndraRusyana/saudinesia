@@ -98,14 +98,22 @@
                                 @endforeach
 
 
-                                
+
                             </form>
+
+                            {{-- Input jumlah (berlaku untuk kedua form) --}}
+                            <div class="mb-2">
+                                <label for="quantity">Jumlah:</label>
+                                <input type="number" id="quantityInput" name="quantity" value="1" min="1"
+                                    class="form-control" required>
+                            </div>
+
                             <form action="{{ route('checkout.confirm') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="itemable_type" value="{{ get_class($item) }}">
                                 <input type="hidden" name="itemable_id" value="{{ $item->id }}">
-                                <input type="hidden" name="quantity" value="1">
-                                <input type="hidden" id="unit_price_input" name="unit_price" value="">
+                                <input type="hidden" name="quantity" id="checkoutQuantity" value="1">
+                                <input type="hidden" id="unit_price_checkout" name="unit_price" value="">
                                 <button type="submit" class="btn btn-dark btn-dark-rounded mb-3">Pesan Langsung</button>
                             </form>
                             @include('components.success')
@@ -113,49 +121,36 @@
                                 @csrf
                                 <input type="hidden" name="itemable_type" value="{{ get_class($item) }}">
                                 <input type="hidden" name="itemable_id" value="{{ $item->id }}">
-                                <input type="hidden" id="unit_price_input" name="unit_price" value="">
-
-                                <div class="mb-2">
-                                    <label for="quantity">Jumlah:</label>
-                                    <input type="number" name="quantity" value="1" min="1" class="form-control"
-                                        required>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label for="description">Keterangan (opsional):</label>
-                                    <input type="text" name="description" class="form-control"
-                                        placeholder="Misalnya: ukuran, warna, dsb">
-                                </div>
-
+                                <input type="hidden" name="quantity" id="cartQuantity" value="1">
+                                <input type="hidden" id="unit_price_cart" name="unit_price" value="">
                                 <button type="submit" class="btn btn-primary">Tambah ke Keranjang</button>
                             </form>
-
-                            <div class="text-center text-muted">
-                                <i class="bi bi-telephone"></i> Contact Host
-                            </div>
                         </div>
                     </div>
-
-
-
                 </div>
-
             </div>
-
         </section>
-
     </div>
 
     <script>
         document.querySelectorAll('input[name="room_type_id"]').forEach(radio => {
             radio.addEventListener('change', function() {
                 const selectedPrice = this.dataset.price;
-                const priceInput = document.getElementById('unit_price_input');
-                if (priceInput) {
-                    priceInput.value = selectedPrice;
-                }
+                document.getElementById('unit_price_checkout').value = selectedPrice;
+                document.getElementById('unit_price_cart').value = selectedPrice;
             });
         });
+
+        // Saat user mengubah jumlah, update ke kedua form
+        const quantityInput = document.getElementById('quantityInput');
+        const checkoutQuantity = document.getElementById('checkoutQuantity');
+        const cartQuantity = document.getElementById('cartQuantity');
+
+        quantityInput.addEventListener('input', function() {
+            checkoutQuantity.value = this.value;
+            cartQuantity.value = this.value;
+        });
     </script>
+
 
 @endsection

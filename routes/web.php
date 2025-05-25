@@ -1,21 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\User\{
-    UserController, HajiController, UmrohController, HotelController,
-    TransportController, VisaController, MuttowifController, InformationsController,
-    MerchandiseController, ProfileController, CartController, TransactionController,
-    OrderController, InvoiceController, LoginController, RegisterController
-};
-use App\Http\Controllers\Admin\{
-    PeriodController, CitiesController, RouteController, DashboardController, AuthController as AdminAuthController,
-    HajiController as AdminHajiController, UmrohController as AdminUmrohController,
-    HotelController as AdminHotelController, InformationsController as AdminInformationsController,
-    TransportController as AdminTransportController, MuttowifController as AdminMuttowifController,
-    VisaController as AdminVisaController, UserController as AdminUserController,
-    MerchandiseController as AdminMerchandiseController, TransactionController as AdminTransactionController,
-    LandArrangementController
-};
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
+use App\Http\Controllers\SocialAuthController;
+use App\Http\Controllers\User\{UserController, HajiController, UmrohController, HotelController, TransportController, VisaController, MuttowifController, InformationsController, MerchandiseController, ProfileController, CartController, TransactionController, OrderController, InvoiceController, LoginController, RegisterController};
+use App\Http\Controllers\Admin\{PeriodController, CitiesController, RouteController, DashboardController, AuthController as AdminAuthController, HajiController as AdminHajiController, UmrohController as AdminUmrohController, HotelController as AdminHotelController, InformationsController as AdminInformationsController, TransportController as AdminTransportController, MuttowifController as AdminMuttowifController, VisaController as AdminVisaController, UserController as AdminUserController, MerchandiseController as AdminMerchandiseController, TransactionController as AdminTransactionController, LandArrangementController, ContentController as AdminContentController};
 
 // User Public Routes
 Route::get('/', [UserController::class, 'index'])->name('user.home');
@@ -52,6 +42,9 @@ Route::group(['middleware' => 'guest:user'], function () {
 
     Route::get('/register', [RegisterController::class, 'index'])->name('user.register.form');
     Route::post('/register', [RegisterController::class, 'register'])->name('user.register');
+
+    Route::get('/auth/google', [SocialAuthController::class, 'redirectToGoogle'])->name('auth.google');
+    Route::get('/auth/google/callback', [SocialAuthController::class, 'handleGoogleCallback']);
 });
 
 // Admin Protected Routes
@@ -125,6 +118,7 @@ Route::middleware(['auth:admin'])->group(function () {
 
     // admin muttowif
     Route::get('/admin/layanan/muttowif', [AdminMuttowifController::class, 'index'])->name('admin.muttowif.index');
+    Route::put('/admin/layanan/price-muttowif/{id}', [AdminMuttowifController::class, 'update'])->name('admin.price-muttowif.update');
     // Route::get('/admin/layanan/muttowif-tambah', [AdminMuttowifController::class, 'create'])->name('admin.muttowif.tambah');
     // Route::post('/admin/layanan/muttowif', [AdminMuttowifController::class, 'store'])->name('admin.muttowif.store');
     // Route::get('/admin/layanan/muttowif/{id}', [AdminMuttowifController::class, 'edit'])->name('admin.muttowif.edit');
@@ -133,6 +127,7 @@ Route::middleware(['auth:admin'])->group(function () {
 
     // admin muttowif
     Route::get('/admin/layanan/visa', [AdminVisaController::class, 'index'])->name('admin.visa.index');
+    Route::put('/admin/layanan/price-visa/{id}', [AdminVisaController::class, 'update'])->name('admin.price-visa.update');
     // Route::get('/admin/layanan/visa-tambah', [AdminVisaController::class, 'create'])->name('admin.visa.tambah');
     // Route::post('/admin/layanan/visa', [AdminVisaController::class, 'store'])->name('admin.visa.store');
     // Route::get('/admin/layanan/visa/{id}', [AdminVisaController::class, 'edit'])->name('admin.visa.edit');
@@ -141,6 +136,7 @@ Route::middleware(['auth:admin'])->group(function () {
 
     Route::get('/admin/transactions', [AdminTransactionController::class, 'index'])->name('admin.transactions.index');
     Route::post('/admin/transactions/{transaction}/verify', [AdminTransactionController::class, 'verify'])->name('admin.transactions.verify');
+    Route::get('/admin/transactions/{transaction}', [AdminTransactionController::class, 'show'])->name('admin.transactions.show');
 
     // admin paket Merchandise
     Route::get('/admin/merchandise', [AdminMerchandiseController::class, 'index'])->name('admin.merchandise.index');
@@ -153,11 +149,60 @@ Route::middleware(['auth:admin'])->group(function () {
     // admin LA
     Route::Resource('land-arrangements', LandArrangementController::class);
 
+    // admin index user
+    Route::get('/admin/content', [AdminContentController::class, 'index'])->name('admin.content.index');
+    Route::post('/admin/hero', [AdminContentController::class, 'updateHero'])->name('admin.hero.update');
+    Route::post('/admin/testimoni/{id}', [AdminContentController::class, 'updateTestimoni'])->name('admin.testimoni.update');
+    Route::get('/galeri/create', [AdminContentController::class, 'createGaleri'])->name('admin.galeri.create');
+    Route::post('/galeri/store', [AdminContentController::class, 'storeGaleri'])->name('admin.galeri.store');
+    Route::get('/galeri/{id}/edit', [AdminContentController::class, 'editGaleri'])->name('admin.galeri.edit');
+    Route::post('/admin/galeri/{id}', [AdminContentController::class, 'updateGaleri'])->name('admin.galeri.update');
+    Route::delete('/galeri/{id}', [AdminContentController::class, 'deleteGaleri'])->name('admin.galeri.delete');
+
     Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 });
 
 // User Protected Routes
 Route::middleware(['auth:user'])->group(function () {
+    Route::get('/debug', function () {
+        $user = Auth::guard('user')->user();
+        dd($user->email_verified_at, $user->hasVerifiedEmail());
+    });
+
+    // Tampilkan notifikasi bahwa harus verifikasi
+    Route::get('/email/verify', function () {
+        $user = Auth::guard('user')->user();
+        if ($user->hasVerifiedEmail()) {
+            return redirect()->route('user.home');
+        }
+
+        return view('auth.user.verify-email');
+    })
+        ->middleware('auth:user')
+        ->name('verification.notice');
+
+    // Proses klik link verifikasi
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill(); // menandai email sudah diverifikasi
+        return redirect()->route('user.home');
+    })
+        ->middleware(['auth:user', 'signed'])
+        ->name('verification.verify');
+
+    // Kirim ulang link verifikasi
+    Route::post('/email/verification-notification', function (Request $request) {
+        $user = Auth::guard('user')->user();
+        if ($user->hasVerifiedEmail()) {
+            return redirect()->route('user.home');
+        }
+        $request->user('user')->sendEmailVerificationNotification();
+        return back()->with('message', 'Link verifikasi telah dikirim!');
+    })
+        ->middleware(['auth:user', 'throttle:6,1'])
+        ->name('verification.send');
+});
+
+Route::middleware(['auth:user', 'verified.user'])->group(function () {
     Route::resource('profiles', ProfileController::class);
     Route::put('/profiles/update', [ProfileController::class, 'update'])->name('profiles.update');
 
@@ -167,13 +212,17 @@ Route::middleware(['auth:user'])->group(function () {
 
     Route::get('/muttowif', [MuttowifController::class, 'index'])->name('user.muttowif.index');
     Route::post('/muttowif', [MuttowifController::class, 'store'])->name('user.muttowif.store');
+    Route::get('/muttowif/{id}', [MuttowifController::class, 'detail'])->name('user.muttowif.detail');
+    Route::post('/muttowif/checkout', [MuttowifController::class, 'checkout'])->name('user.muttowif.checkout');
 
     Route::get('/visa', [VisaController::class, 'index'])->name('user.visa.index');
     Route::post('/visa', [VisaController::class, 'store'])->name('user.visa.store');
+    Route::get('/visa/{id}', [VisaController::class, 'detail'])->name('user.visa.detail');
+    Route::post('/visa/checkout', [VisaController::class, 'checkout'])->name('user.visa.checkout');
 
-    Route::get('/checkout', [UserController::class, 'checkout'])->name('user.checkout');
-    Route::get('/invoice', [UserController::class, 'invoice'])->name('user.invoice');
-    Route::get('/upload-payment', [UserController::class, 'uploadPayment'])->name('user.uploadPayment');
+    // Route::get('/checkout', [UserController::class, 'checkout'])->name('user.checkout');
+    // Route::get('/invoice', [UserController::class, 'invoice'])->name('user.invoice');
+    // Route::get('/upload-payment', [UserController::class, 'uploadPayment'])->name('user.uploadPayment');
 
     Route::post('/checkout', [OrderController::class, 'confirm'])->name('checkout.confirm');
     Route::post('/checkout/confirm', [OrderController::class, 'confirmMultiple'])->name('checkout.confirm.multiple');

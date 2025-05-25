@@ -36,7 +36,12 @@ class DatabaseSeeder extends Seeder
             HajiSeeder::class, 
             UmrohSeeder::class, 
             MerchandiseSeeder::class,
-            TransactionSeeder::class
+            TransactionSeeder::class,
+            TestimoniSeeder::class,
+            GaleriSeeder::class,
+            HeroSeeder::class,
+            PriceMuttowifSeeder::class,
+            PriceVisaSeeder::class,
         ]);
     }
 }

@@ -26,6 +26,7 @@
                                     <div class="card-body">
                                         <h5 class="card-title">{{ $item->name }}</h5>
                                         <p class="card-text text-dark">{{ Str::limit($item->description, 100, '...') }}</p>
+                                        <p class="card-text text-dark">Stok : <small class="text-muted">{{$item->stock}}</small></p>
                                         <p class="card-text"><small class="text-muted">Rp
                                                 {{ number_format($item->prices, 0, ',', '.') }}</small></p>
                                     </div>

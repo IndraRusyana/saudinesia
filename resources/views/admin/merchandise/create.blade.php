@@ -28,8 +28,9 @@
                                 <div class="card-header">Form Tambah Merchandise</div>
                                 <div class="card-body">
                                     <h5 class="card-title mb-3">Silahkan isi form berikut untuk menambah Merchandise</h5>
-                                    <form action="{{ route('admin.merchandise.store') }}" method="POST" enctype="multipart/form-data" accept-charset="utf-8">
-                                        @csrf       
+                                    <form action="{{ route('admin.merchandise.store') }}" method="POST"
+                                        enctype="multipart/form-data" accept-charset="utf-8">
+                                        @csrf
                                         <div class="mb-3 row">
                                             <label class="col-sm-2 form-label" for="name">Nama</label>
                                             <div class="col-sm-10">
@@ -43,7 +44,7 @@
                                                 <textarea name="description" class="form-control" rows="4" required></textarea>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="mb-3 row">
                                             <label class="col-sm-2 form-label" for="prices">Harga</label>
                                             <div class="col-sm-10">
@@ -54,10 +55,17 @@
                                         <div class="mb-3 row">
                                             <label class="col-sm-2 form-label" for="images">Gambar</label>
                                             <div class="col-sm-10">
-                                                <input type="file" name="images"
-                                                    class="form-control">
+                                                <input type="file" name="images" class="form-control">
                                             </div>
                                         </div>
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-2 form-label" for="stock">Stok</label>
+                                            <div class="col-sm-10">
+                                                <input type="number" name="stock" placeholder="Jumlah stok tersedia"
+                                                    class="form-control" required>
+                                            </div>
+                                        </div>
+
                                         <div class="mb-3 row">
                                             <div class="col-sm-10 offset-sm-2">
                                                 <button type="submit" class="btn btn-primary">Tambah</button>

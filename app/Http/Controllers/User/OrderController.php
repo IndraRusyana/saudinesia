@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\Merchandise;
 
 class OrderController extends Controller
 {
@@ -16,6 +17,13 @@ class OrderController extends Controller
 
         // Dapatkan model berdasarkan itemable_type dan itemable_id
         $itemable = app($request->itemable_type)::findOrFail($request->itemable_id);
+
+        // Jika tipe item adalah Merchandise
+        if ($itemable instanceof Merchandise) {
+            if ($itemable->stock < $request->quantity) {
+                return back()->with('error', 'Stok tidak mencukupi untuk jumlah yang dipesan.');
+            }
+        }
 
         return view('user.checkout.index', [
             'itemable' => $itemable,

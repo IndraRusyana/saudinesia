@@ -13,6 +13,7 @@ class Merchandise extends Model
         'images',
         'description',
         'prices',
+        'stock',
     ];
 
     public function transactions()

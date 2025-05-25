@@ -15,6 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
         //
         $middleware->alias([
             'admin' => \App\Http\Middleware\RoleMiddleware::class,
+            'verified.user' => \App\Http\Middleware\EnsureUserEmailIsVerified::class,
+
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

@@ -30,6 +30,8 @@
 
     <script src="https://kit.fontawesome.com/71cd5983fb.js" crossorigin="anonymous"></script>
 
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 
     <title>@yield('title')</title>
 

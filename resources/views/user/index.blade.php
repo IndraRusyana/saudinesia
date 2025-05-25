@@ -10,20 +10,19 @@
 
 @section('content')
     <div class="hero overlay">
-
+        @foreach ($hero as $item)
+            
+        @endforeach
         <div class="img-bg rellax">
-            <img src="assets/user/images/bg1.jpg" alt="Image" class="img-fluid">
+            <img src="{{asset('uploads/'.$item->image)}}" alt="Image" class="img-fluid">
         </div>
 
         <div class="container">
             <div class="row align-items-center justify-content-start">
                 <div class="col-lg-5">
 
-                    <h1 class="heading" data-aos="fade-up">Makkah’s legendary
-                        Golden Circle</h1>
-                    <p class="mb-5" data-aos="fade-up">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                        pellentesque arcu et turpis imperdiet dapibus. Vestibulum eget lobortis nulla. Pellentesque luctus
-                        feugiat ante id egestas</p>
+                    <h1 class="heading" data-aos="fade-up">{{$item->title}}</h1>
+                    <p class="mb-5" data-aos="fade-up">{{$item->description}}</p>
 
                     <div data-aos="fade-up">
                         <a href="/transport" class="play-button align-items-center d-flex glightbox3">
@@ -69,8 +68,12 @@
                             tincidunt auctor. Nam at dolor ornare, pharetra felis vel, pulvinar quam. Nulla venenatis ipsum
                             ac ex rutrum, eget blandit nisl sagittis.</p>
 
-                        <p class="my-4" data-aos="fade-up" data-aos-delay="300"><a href="/haji"
-                                class="btn btn-outline-secondary">Lihat Paket</a></p>
+                        <div class="d-flex">
+                            <p class="my-4 me-3" data-aos="fade-up" data-aos-delay="300"><a href="/haji"
+                                    class="btn btn-outline-secondary">Paket Haji</a></p>
+                            <p class="my-4" data-aos="fade-up" data-aos-delay="300"><a href="/umroh"
+                                    class="btn btn-outline-secondary">Paket Umroh</a></p>
+                        </div>
                     </div>
                 </div>
 
@@ -249,50 +252,18 @@
             <div class="col-lg-9">
                 <div class="row">
                     <h2 class="heading mb-5 text-start">Testimoni Pelanggan</h2>
-                    <div class="item col m-3">
-                        <blockquote class="block-testimonial">
-                            <div class="author">
-                                <img src="assets/user/images/person_1.jpg" alt="Free template by TemplateUX">
-                                <h3>John Doe</h3>
-                                <p class="position mb-5"></p>
-                            </div>
-                            <p>
-                            <div class="quote">&ldquo;</div>
-                            &ldquo;Alhamdulilah, terima kasih Saudinesia yang Amanah membantu kami dalam perjalanan Umrah
-                            kami bersama Keluarga.&rdquo;</p>
-                        </blockquote>
-                    </div>
+                    @foreach ($testimoni as $t)
+                        <div class="item col m-3">
+                            <blockquote class="block-testimonial">
+                                <div class="author">
+                                    <img src="{{ asset('uploads/' . $t->foto) }}" alt="{{ $t->nama }}">
+                                    <h3>{{ $t->nama }}</h3>
+                                </div>
+                                <p>&ldquo;{{ $t->deskripsi }}&rdquo;</p>
+                            </blockquote>
+                        </div>
+                    @endforeach
 
-                    <div class="item col m-3">
-                        <blockquote class="block-testimonial">
-                            <div class="author">
-                                <img src="assets/user/images/person_2.jpg" alt="Free template by TemplateUX">
-                                <h3>James Woodland</h3>
-                                <p class="position mb-5"></p>
-                            </div>
-                            <p>
-                            <div class="quote">&ldquo;</div>
-                            &ldquo;Terima kasih Saudinesia dengan Teamnya, atas bantuan selama perjalanan Haji kami. Semua
-                            berjalan sesuai rencana dan SAUDINESIA akan saya rekomendasikan kepada teman yang lain.&rdquo;
-                            </p>
-
-                        </blockquote>
-                    </div>
-
-                    <div class="item col m-3">
-                        <blockquote class="block-testimonial">
-                            <div class="author">
-                                <img src="assets/user/images/person_3.jpg" alt="Free template by TemplateUX">
-                                <h3>Rob Smith</h3>
-                                <p class="position mb-5"></p>
-                            </div>
-                            <p>
-                            <div class="quote">&ldquo;</div>
-                            &ldquo;A small river named Duden flows by their place and supplies it with the necessary
-                            regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your
-                            mouth.&rdquo;</p>
-                        </blockquote>
-                    </div>
                 </div>
             </div>
         </div>
@@ -304,7 +275,7 @@
             <div class="row mb-5">
                 <div class="col-lg-6 mx-auto text-center">
                     <div class="heading-content" data-aos="fade-up">
-                        <h2>Portofolio Kami</h2>
+                        <h2>Galeri</h2>
                         <p>Lorem ipsum dolor sit amet consectetur. Mollis erat duis aliquam mauris est risus lectus.
                             Phasellus consequat urna tellus</p>
                         {{-- <p class="my-4" data-aos="fade-up" data-aos-delay="300"><a href="#" class="btn btn-primary">View All</a></p> --}}
@@ -326,34 +297,15 @@
                 </div>
             </div>
             <div class="row">
-                <div class="row">
-                    {{-- @foreach ($galeri as $item) --}}
-                    {{-- <div class="mb-4 col-md-3 justify-content-center filter foto">
-                        <img src="{{ asset('storage/' . $item->gambar) }}"
-                            onclick="openMediaModal('image', '{{ asset('storage/' . $item->gambar) }}', '{{ $item->nama }}', '{{ $item->deskripsi }}')"
-                            class="img-thumbnail" style="cursor: pointer;">
-                    </div> --}}
-                    {{-- @endforeach --}}
-                    <div class="col-lg-3">
-                        <div class="service-2 left-0 mb-5 mx-3">
-                            <img src="assets/user/images/gal_5.jpg" alt="Image" class="img-fluid mb-4 rounded">
+                <div class="row g-3">
+                    @foreach ($galeri as $item)
+                        <div class="mb-4 col-lg-3 justify-content-center filter {{ $item->kategori }}">
+                            <img src="{{ asset('uploads/' . $item->gambar) }}" class="img-thumbnail"
+                                style="cursor: pointer;" data-type="image"
+                                data-src="{{ asset('uploads/' . $item->gambar) }}" data-nama="{{ $item->nama }}"
+                                data-deskripsi="{{ $item->deskripsi }}" onclick="handleMediaClick(this)">
                         </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="service-2 left-0 mb-5 mx-3">
-                            <img src="assets/user/images/gal_6.jpg" alt="Image" class="img-fluid mb-4 rounded">
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="service-2 left-0 mb-5 mx-3">
-                            <img src="assets/user/images/gal_3.jpg" alt="Image" class="img-fluid mb-4 rounded">
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="service-2 left-0 mb-5 mx-3">
-                            <img src="assets/user/images/gal_4.jpg" alt="Image" class="img-fluid mb-4 rounded">
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -374,7 +326,7 @@
                     <div class="col-lg-3">
                         <a href="">
                             <div class="card mb-3">
-                                <img class="card-img-top p-2" src="{{ asset('storage/' . $item->images) }}"
+                                <img class="card-img-top p-2" src="{{ asset('uploads/' . $item->images) }}"
                                     alt="Card image cap">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $item->title }}</h5>
@@ -392,4 +344,105 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="mediaModal" tabindex="-1" aria-labelledby="mediaModalLabel" aria-hidden="true"
+        style="z-index: 2000;">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="mediaModalLabel">Media</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img id="modalImage" src="" class="img-fluid" alt="Gambar" style="display: none;">
+                    <video id="modalVideo" class="img-fluid" controls style="display: none;">
+                        <source id="videoSource" src="" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <p id="modalDescription" class="mt-4" style="text-align: justify"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+
+            $(".filter-button").click(function() {
+                var value = $(this).attr('data-filter');
+
+                if (value == "all") {
+                    //$('.filter').removeClass('hidden');
+                    $('.filter').show('1000');
+                    // Menghapus class 'clicked' dari semua tombol filter
+                    $(".filter-button").removeClass("clicked");
+
+                    // Menambahkan class 'clicked' pada tombol yang diklik
+                    $(this).addClass("clicked");
+                } else {
+                    //            $('.filter[filter-item="'+value+'"]').removeClass('hidden');
+                    //            $(".filter").not('.filter[filter-item="'+value+'"]').addClass('hidden');
+                    $(".filter").not('.' + value).hide('3000');
+                    $('.filter').filter('.' + value).show('3000');
+
+                    // Menghapus class 'clicked' dari semua tombol filter
+                    $(".filter-button").removeClass("clicked");
+
+                    // Menambahkan class 'clicked' pada tombol yang diklik
+                    $(this).addClass("clicked");
+                }
+            });
+
+        });
+
+        $(document).ready(function() {
+
+            $(".filter-button2").click(function() {
+                var value = $(this).attr('data-filter');
+
+                // Menyembunyikan elemen yang tidak sesuai dengan filter
+                $(".filter").not('.' + value).hide('3000');
+                $('.filter').filter('.' + value).show('3000');
+
+                // Menghapus class 'clicked' dari semua tombol filter
+                $(".filter-button2").removeClass("clicked");
+
+                // Menambahkan class 'clicked' pada tombol yang diklik
+                $(this).addClass("clicked");
+            });
+
+        });
+
+        function handleMediaClick(el) {
+            const type = el.dataset.type;
+            const src = el.dataset.src;
+            const nama = el.dataset.nama;
+            const deskripsi = el.dataset.deskripsi;
+
+            openMediaModal(type, src, nama, deskripsi);
+        }
+
+        // Fungsi untuk membuka modal dan menampilkan gambar atau video
+        function openMediaModal(mediaType, mediaSrc, name = '', description = '') {
+            const modalImage = document.getElementById('modalImage');
+            const modalDescription = document.getElementById('modalDescription');
+            const modalName = document.getElementById('mediaModalLabel');
+
+            // Reset media display
+            modalImage.style.display = 'none';
+
+            if (mediaType === 'image') {
+                modalImage.src = mediaSrc;
+                modalImage.style.display = 'block';
+            }
+
+            modalName.textContent = name || '-';
+            modalDescription.textContent = description || '-';
+
+            // Show the Bootstrap modal
+            const mediaModal = new bootstrap.Modal(document.getElementById('mediaModal'));
+            mediaModal.show();
+        }
+    </script>
 @endsection

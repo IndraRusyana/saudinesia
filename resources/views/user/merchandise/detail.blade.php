@@ -53,38 +53,41 @@
                         <div class="s-box mt-4">
                             <h5 class="fw-bold">IDR. {{ number_format($merchandise->prices, 0, ',', '.') }}</h5>
                             <hr>
-                            <form action="{{ route('checkout.confirm') }}" method="POST">
+                            {{-- Input jumlah (berlaku untuk kedua form) --}}
+                            <div class="mb-2">
+                                <label for="quantity">Jumlah:</label>
+                                <input type="number" id="quantityInput" name="quantity" value="1" min="1"
+                                    class="form-control" required>
+                            </div>
+
+                            {{-- Form Checkout --}}
+                            <form id="checkoutForm" action="{{ route('checkout.confirm') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="itemable_type" value="{{ get_class($item) }}">
                                 <input type="hidden" name="itemable_id" value="{{ $item->id }}">
-                                <input type="hidden" name="quantity" value="1">
+                                <input type="hidden" name="quantity" id="checkoutQuantity" value="1">
                                 <input type="hidden" name="unit_price" value="{{ $item->prices }}">
                                 <button type="submit" class="btn btn-dark btn-dark-rounded mb-3">Pesan Langsung</button>
                             </form>
+
                             @include('components.success')
-                            <form action="{{ route('carts.store') }}" method="POST">
+
+                            {{-- Form Tambah ke Keranjang --}}
+                            <form id="cartForm" action="{{ route('carts.store') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="itemable_type" value="{{ get_class($item) }}">
                                 <input type="hidden" name="itemable_id" value="{{ $item->id }}">
+                                <input type="hidden" name="quantity" id="cartQuantity" value="1">
                                 <input type="hidden" name="unit_price" value="{{ $item->prices }}">
-
-                                <div class="mb-2">
-                                    <label for="quantity">Jumlah:</label>
-                                    <input type="number" name="quantity" value="1" min="1" class="form-control"
-                                        required>
-                                </div>
-
-                                {{-- <div class="mb-2">
-                                    <label for="description">Keterangan (opsional):</label>
-                                    <input type="text" name="description" class="form-control"
-                                        placeholder="Misalnya: ukuran, warna, dsb">
-                                </div> --}}
-
                                 <button type="submit" class="btn btn-primary">Tambah ke Keranjang</button>
                             </form>
-                            {{-- <div class="text-center">
-                                <i class="bi bi-telephone"></i> <small>Contact Host</small>
-                            </div> --}}
+
+                            @if (session('error'))
+                                <div class="alert alert-danger mt-3">
+                                    {{ session('error') }}
+                                </div>
+                            @endif
+
                         </div>
                     </div>
                 </div>
@@ -94,6 +97,7 @@
                     <div class="col-lg-8">
                         <h6 class="fw-bold">Deskripsi Paket</h6>
                         <p class="text-muted">{!! nl2br(e($merchandise->description)) !!}</p>
+                        <p class="text-muted">Stok : {{$merchandise->stock}}</p>
                     </div>
                 </div>
 
@@ -102,4 +106,16 @@
         </section>
 
     </div>
+
+    <script>
+        // Saat user mengubah jumlah, update ke kedua form
+        const quantityInput = document.getElementById('quantityInput');
+        const checkoutQuantity = document.getElementById('checkoutQuantity');
+        const cartQuantity = document.getElementById('cartQuantity');
+
+        quantityInput.addEventListener('input', function() {
+            checkoutQuantity.value = this.value;
+            cartQuantity.value = this.value;
+        });
+    </script>
 @endsection

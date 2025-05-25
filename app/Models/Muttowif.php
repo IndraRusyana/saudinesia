@@ -26,4 +26,14 @@ class Muttowif extends Model
     {
         return $this->morphMany(Transaction::class, 'transactionable');
     }
+
+    public function getNameAttribute()
+    {
+        return 'Pemesanan Muttowif - ' . $this->start_date . ' s/d ' . $this->end_date;
+    }
+
+    public function transactionItem()
+    {
+        return $this->morphOne(TransactionItem::class, 'itemable');
+    }
 }

@@ -1,10 +1,10 @@
 @extends('layouts.admin')
 
 @section('title')
-    Dashboard Periode | Saudinesia
+    Dashboard Transaksi | Saudinesia
 @endsection
 
-@section('periode')
+@section('transaksi')
     active
 @endsection
 
@@ -27,7 +27,7 @@
                     @endif
 
                     <div class="row px-2">
-                        <h4>Verifikasi Transaksi</h4>
+                        <h4>Transaksi</h4>
 
                         <table class="table table-bordered">
                             <thead>
@@ -36,8 +36,9 @@
                                     <th>User</th>
                                     <th>email</th>
                                     <th>Status</th>
-                                    <th>Bukti</th>
+                                    {{-- <th>Bukti</th> --}}
                                     <th>Aksi</th>
+                                    <th>Keterangan</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -60,27 +61,29 @@
                                                 {{ ucfirst($t->status) }}
                                             </span>
                                         </td>
-                                        <td>
+                                        {{-- <td>
                                             @if ($t->payment_proof)
-                                                <a class="btn btn-outline-light" href="{{ asset('uploads/' . $t->payment_proof) }}"
+                                                <a class="btn btn-outline-light"
+                                                    href="{{ asset('uploads/' . $t->payment_proof) }}"
                                                     target="_blank">Lihat</a>
                                             @else
                                                 -
                                             @endif
+                                        </td> --}}
+                                        <td>
+                                            <a href="{{ route('admin.transactions.show', $t->id) }}"
+                                                class="btn btn-sm btn-info">Detail</a>
                                         </td>
                                         <td>
+
                                             @if ($t->status === 'belum bayar')
                                                 <span class="text-muted">Menunggu pembayaran</span>
                                             @elseif($t->status === 'sudah bayar')
-                                                <form action="{{ route('admin.transactions.verify', $t->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    <button class="btn btn-success btn-sm">Verifikasi</button>
-                                                </form>
+                                                <span class="text-muted">Perlu Verifikasi</span>
                                             @elseif($t->status === 'sudah diverifikasi')
                                                 <span class="text-muted">Selesai</span>
                                             @else
-                                                <span class="text-muted">-</span>
+                                                <span class="text-muted">Batal</span>
                                             @endif
                                         </td>
                                     </tr>

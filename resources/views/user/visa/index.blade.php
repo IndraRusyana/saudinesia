@@ -40,43 +40,60 @@
                         </select>
                     </div>
 
-                    {{-- Form Manual - hanya muncul jika is_self == 0 --}}
-                    <div id="manual-form" style="display: none;">
-                        <h5>Data Pemohon</h5>
-                        @foreach ([
-            'nama_lengkap' => 'Nama Lengkap',
-            'tempat_lahir' => 'Tempat Lahir',
-            'tanggal_lahir' => 'Tanggal Lahir',
-            'jenis_kelamin' => 'Jenis Kelamin',
-            'pekerjaan' => 'Pekerjaan',
-            'no_hp' => 'No HP',
-            'no_paspor' => 'No Paspor',
-            'paspor_terbit' => 'Tanggal Terbit Paspor',
-            'paspor_kadaluarsa' => 'Tanggal Kadaluarsa Paspor',
-            'wilayah_terbit' => 'Wilayah Terbit Paspor',
-        ] as $field => $label)
-                            <div class="mb-3">
-                                <label for="{{ $field }}" class="form-label">{{ $label }}</label>
-                                <input type="{{ str_contains($field, 'tanggal') ? 'date' : 'text' }}"
-                                    name="{{ $field }}" class="form-control" value="{{ old($field) }}">
-                                @error($field)
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        @endforeach
+                    @php
+                        $useProfile = request()->old('is_self', '1') === '1' && isset($profile);
+                    @endphp
 
-                        {{-- Jenis Kelamin --}}
-                        <div class="mb-3">
-                            <label class="form-label">Jenis Kelamin</label><br>
-                            <label><input type="radio" name="jenis_kelamin" value="Laki-laki"
-                                    {{ old('jenis_kelamin') == 'Laki-laki' ? 'checked' : '' }}> Laki-laki</label>
-                            <label><input type="radio" name="jenis_kelamin" value="Perempuan"
-                                    {{ old('jenis_kelamin') == 'Perempuan' ? 'checked' : '' }}> Perempuan</label>
-                            @error('jenis_kelamin')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
+                    <div id="manual-form">
+                        <h5>Data Pemohon</h5>
+
+                        @php
+                            $fields = [
+                                'nama_lengkap' => 'Nama Lengkap',
+                                'tempat_lahir' => 'Tempat Lahir',
+                                'tanggal_lahir' => 'Tanggal Lahir',
+                                'jenis_kelamin' => 'Jenis Kelamin',
+                                'pekerjaan' => 'Pekerjaan',
+                                'no_hp' => 'No HP',
+                                'no_paspor' => 'No Paspor',
+                                'paspor_terbit' => 'Tanggal Terbit Paspor',
+                                'paspor_kadaluarsa' => 'Tanggal Kadaluarsa Paspor',
+                                'wilayah_terbit' => 'Wilayah Terbit Paspor',
+                            ];
+                        @endphp
+
+                        @foreach ($fields as $field => $label)
+                            @php
+                                $isDate = str_contains($label, 'Tanggal');
+                                $value = old($field, $useProfile ? $profile->$field ?? '' : '');
+                            @endphp
+
+                            @if ($field === 'jenis_kelamin')
+                                <div class="mb-3">
+                                    <label class="form-label">{{ $label }}</label><br>
+                                    @foreach (['Laki-laki', 'Perempuan'] as $gender)
+                                        <label class="me-3">
+                                            <input type="radio" name="{{ $field }}" value="{{ $gender }}"
+                                                {{ $value === $gender ? 'checked' : '' }}> {{ $gender }}
+                                        </label>
+                                    @endforeach
+                                    @error($field)
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            @else
+                                <div class="mb-3">
+                                    <label for="{{ $field }}" class="form-label">{{ $label }}</label>
+                                    <input type="{{ $isDate ? 'date' : 'text' }}" name="{{ $field }}"
+                                        id="{{ $field }}" class="form-control" value="{{ $value }}">
+                                    @error($field)
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            @endif
+                        @endforeach
                     </div>
+
 
                     {{-- Informasi Keberangkatan --}}
                     <h5>Detail Keberangkatan</h5>
@@ -148,14 +165,4 @@
 
 
     </div>
-    <script>
-        function toggleManualForm() {
-            const isSelf = document.getElementById('is_self').value === '1';
-            document.getElementById('manual-form').style.display = isSelf ? 'none' : 'block';
-            document.getElementById('lampiran-paspor-wrapper').style.display = isSelf ? 'none' : 'block';
-        }
-
-        // Jalankan saat halaman pertama kali dimuat
-        document.addEventListener('DOMContentLoaded', toggleManualForm);
-    </script>
 @endsection

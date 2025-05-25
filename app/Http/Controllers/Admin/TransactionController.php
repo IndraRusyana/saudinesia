@@ -14,7 +14,8 @@ class TransactionController extends Controller
     {
         $user = Auth::user();
         $transactions = Transaction::with('user')->latest()->paginate(10);
-        return view('admin.transactions.index', compact('transactions','user'));
+        // dd($transactions);
+        return view('admin.transactions.index', compact('transactions', 'user'));
     }
 
     public function verify(Transaction $transaction)
@@ -26,5 +27,13 @@ class TransactionController extends Controller
         $transaction->update(['status' => 'sudah diverifikasi']);
 
         return back()->with('success', 'Transaksi berhasil diverifikasi.');
+    }
+
+    public function show(Transaction $transaction)
+    {
+        $user = Auth::user();
+        $transaction->load(['user', 'items.itemable']); // eager loading relasi
+
+        return view('admin.transactions.show', compact('transaction', 'user'));
     }
 }

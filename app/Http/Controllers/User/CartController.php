@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use App\Models\Merchandise;
 
 class CartController extends Controller
 {
@@ -15,14 +16,11 @@ class CartController extends Controller
     {
         $home = 'cart';
 
-        $breadcrumbs = [
-            ['label' => 'Home', 'url' => '/'],
-            ['label' => 'Pesanan', 'url' => null],
-        ];
+        $breadcrumbs = [['label' => 'Home', 'url' => '/'], ['label' => 'Pesanan', 'url' => null]];
 
         $carts = Cart::where('user_id', auth()->id())->get();
 
-        return view('user.cart.index', compact('carts','home','breadcrumbs'));
+        return view('user.cart.index', compact('carts', 'home', 'breadcrumbs'));
     }
 
     public function store(Request $request)
@@ -36,11 +34,26 @@ class CartController extends Controller
             'unit_price' => 'required|numeric|min:0',
         ]);
 
+        // Resolve full class name if short
+        $itemableClass = $request->itemable_type;
+
+        // Ambil instance dari itemable
+        $itemable = $itemableClass::findOrFail($request->itemable_id);
+
+        if ($itemable instanceof Merchandise) {
+            if ($itemable->stock < $request->quantity) {
+                return back()->with('error', 'Stok tidak mencukupi untuk jumlah yang dipesan.');
+            }
+        }
+
+        // Default deskripsi dari itemable (misalnya: nama layanan, hotel, dll)
+        $defaultDescription = $itemable->name ?? ($itemable->title ?? class_basename($itemableClass) . ' #' . $itemable->id);
+
         Cart::create([
             'user_id' => Auth::id(),
             'itemable_type' => $request->itemable_type,
             'itemable_id' => $request->itemable_id,
-            'description' => $request->description,
+            'description' => $defaultDescription,
             'quantity' => $request->quantity,
             'unit_price' => $request->unit_price,
         ]);

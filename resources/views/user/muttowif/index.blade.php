@@ -21,6 +21,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <section class="d-flex justify-content-center align-items-center my-5">
             <div class="card p-4" style="max-width: 500px; width: 100%;">
                 <h4 class="text-center mb-2">Pemesanan Muttowif</h4>

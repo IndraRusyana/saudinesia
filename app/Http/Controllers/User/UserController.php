@@ -5,6 +5,9 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Informations;
+use App\Models\Testimoni;
+use App\Models\Galeri;
+use App\Models\Hero;
 
 class UserController extends Controller
 {
@@ -12,8 +15,11 @@ class UserController extends Controller
     {   
         $home = 'home';
         $informasi = Informations::paginate(4);
+        $testimoni = Testimoni::all();
+        $galeri = Galeri::all();
+        $hero = Hero::all();
 
-        return view('user.index', compact('home','informasi'));
+        return view('user.index', compact('home','informasi','testimoni','galeri','hero'));
     }
 
     public function checkout()

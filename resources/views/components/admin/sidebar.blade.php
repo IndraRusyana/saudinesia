@@ -39,6 +39,7 @@
         <li><a href="/admin/rute"><i class="fas fa-route"></i> Rute</a></li>
         <li><a href="/admin/merchandise"><i class="fas fa-shopping-bag"></i> Merchandise</a></li>
         <li><a href="/land-arrangements"><i class="fas fa-map-marked-alt"></i> Land Arrangements</a></li>
+        <li><a href="/admin/content"><i class="fas fa-map-marked-alt"></i> Konten</a></li>
     </ul>
 
 </nav>

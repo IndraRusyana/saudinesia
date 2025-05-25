@@ -39,8 +39,9 @@ class MerchandiseController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required',
-            'pricess' => 'required|numeric',
+            'prices' => 'required|numeric',
             'images' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'stock' => 'required|numeric',
         ]);
 
         // Mendapatkan file gambar yang diupload
@@ -56,8 +57,9 @@ class MerchandiseController extends Controller
         $merchandise = new Merchandise();
         $merchandise->name = $request->input('name');
         $merchandise->description = $request->input('description');
-        $merchandise->pricess = $request->input('pricess');
+        $merchandise->prices = $request->input('prices');
         $merchandise->images = $imagePath;
+        $merchandise->stock = $request->input('stock');
 
         // Menyimpan data ke database
         $merchandise->save();
@@ -98,6 +100,7 @@ class MerchandiseController extends Controller
             'description' => 'required',
             'prices' => 'required|numeric',
             'images' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'stock' => 'required|numeric',
         ]);
 
         // Temukan data berdasarkan ID
@@ -107,6 +110,7 @@ class MerchandiseController extends Controller
         $merchandise->name = $request->input('name');
         $merchandise->description = $request->input('description');
         $merchandise->prices = $request->input('prices');
+        $merchandise->stock = $request->input('stock');
 
         // Jika ada gambar baru yang diupload
         if ($request->hasFile('images')) {

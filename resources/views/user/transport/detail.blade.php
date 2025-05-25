@@ -51,39 +51,31 @@
                                 @endif
                             </h5>
                             <hr>
+
+                            {{-- Input jumlah (berlaku untuk kedua form) --}}
+                            <div class="mb-2">
+                                <label for="quantity">Jumlah:</label>
+                                <input type="number" id="quantityInput" name="quantity" value="1" min="1"
+                                    class="form-control" required>
+                            </div>
+
                             <form action="{{ route('checkout.confirm') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="itemable_type" value="{{ get_class($item) }}">
                                 <input type="hidden" name="itemable_id" value="{{ $item->id }}">
-                                <input type="hidden" name="quantity" value="1">
+                                <input type="hidden" name="quantity" id="checkoutQuantity" value="1">
                                 <input type="hidden" name="unit_price" value="{{ $filteredPrices->first()->price }}">
                                 <button type="submit" class="btn btn-dark btn-dark-rounded mb-3">Pesan Langsung</button>
                             </form>
-                             @include('components.success')
+                            @include('components.success')
                             <form action="{{ route('carts.store') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="itemable_type" value="{{ get_class($item) }}">
                                 <input type="hidden" name="itemable_id" value="{{ $item->id }}">
+                                <input type="hidden" name="quantity" id="cartQuantity" value="1">
                                 <input type="hidden" name="unit_price" value="{{ $filteredPrices->first()->price }}">
-
-                                <div class="mb-2">
-                                    <label for="quantity">Jumlah:</label>
-                                    <input type="number" name="quantity" value="1" min="1"
-                                        class="form-control" required>
-                                </div>
-
-                                <div class="mb-2">
-                                    <label for="description">Keterangan (opsional):</label>
-                                    <input type="text" name="description" class="form-control"
-                                        placeholder="Misalnya: ukuran, warna, dsb">
-                                </div>
-
                                 <button type="submit" class="btn btn-primary">Tambah ke Keranjang</button>
                             </form>
-
-                            <div class="text-center">
-                                <i class="bi bi-telephone"></i> <small>Contact Host</small>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -116,6 +108,16 @@
                     priceInput.value = selectedPrice;
                 }
             });
+        });
+
+        // Saat user mengubah jumlah, update ke kedua form
+        const quantityInput = document.getElementById('quantityInput');
+        const checkoutQuantity = document.getElementById('checkoutQuantity');
+        const cartQuantity = document.getElementById('cartQuantity');
+
+        quantityInput.addEventListener('input', function() {
+            checkoutQuantity.value = this.value;
+            cartQuantity.value = this.value;
         });
     </script>
 @endsection

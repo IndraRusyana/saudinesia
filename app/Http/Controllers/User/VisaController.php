@@ -3,46 +3,43 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Visa;
-use Illuminate\Support\Facades\Storage;
+use App\Models\PriceVisa;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class VisaController extends Controller
 {
-    //
     public function index()
     {
         $home = 'visa';
 
-        $breadcrumbs = [
-            ['label' => 'Home', 'url' => '/'],
-            ['label' => 'Layanan', 'url' => null],
-            ['label' => 'Visa', 'url' => null], // Aktif / halaman saat ini
-        ];
+        $breadcrumbs = [['label' => 'Home', 'url' => '/'], ['label' => 'Layanan', 'url' => null], ['label' => 'Visa', 'url' => null]];
 
-        return view('user.visa.index', compact('home', 'breadcrumbs'));
+        $user = auth()->user();
+        $profile = $user->profile; // pastikan relasi 'profile' ada di model User
+
+        return view('user.visa.index', compact('home', 'breadcrumbs', 'profile'));
     }
 
     public function store(Request $request)
     {
-        // dd($request);
         $validated = $request->validate([
             'nama_lengkap' => 'required|string|max:255',
             'tempat_lahir' => 'required|string|max:255',
             'tanggal_lahir' => 'required|date',
-            'jenis_kelamin' => 'required|',
+            'jenis_kelamin' => 'required|string',
             'pekerjaan' => 'nullable|string|max:255',
             'no_hp' => 'nullable|string|max:20',
 
             'no_paspor' => 'nullable|string|max:50',
             'paspor_terbit' => 'nullable|date',
             'paspor_kadaluarsa' => 'nullable|date',
+            'wilayah_terbit' => 'nullable|string|max:255',
 
             'tanggal_berangkat' => 'nullable|date',
             'maskapai_berangkat' => 'nullable|string|max:255',
             'no_penerbangan_berangkat' => 'nullable|string|max:50',
-
             'tanggal_kembali' => 'nullable|date',
             'maskapai_kembali' => 'nullable|string|max:255',
             'no_penerbangan_kembali' => 'nullable|string|max:50',
@@ -50,7 +47,6 @@ class VisaController extends Controller
             'hotel_mekkah' => 'nullable|string|max:255',
             'checkin_mekkah' => 'nullable|date',
             'checkout_mekkah' => 'nullable|date',
-
             'hotel_madinah' => 'nullable|string|max:255',
             'checkin_madinah' => 'nullable|date',
             'checkout_madinah' => 'nullable|date',
@@ -65,65 +61,94 @@ class VisaController extends Controller
         ]);
 
         $user = auth()->user();
+        $visaData = ['user_id' => $user->id, 'is_self' => $request->is_self];
 
         if ($request->is_self) {
-            // Ambil data dari profil user
             $profile = $user->profile;
-
-            $visaData = [
-                'user_id' => $user->id,
-                'is_self' => true,
-
-                'nama_lengkap' => $profile->full_name,
-                'tanggal_lahir' => $profile->birth_date,
-                'jenis_kelamin' => $request->jenis_kelamin ?? 'Laki-laki',
-                'no_hp' => $profile->phone_number,
+            $visaData += [
+                'nama_lengkap' => $profile->nama_lengkap,
+                'tanggal_lahir' => $profile->tanggal_lahir,
+                'jenis_kelamin' => $profile->jenis_kelamin ?? 'Laki-laki',
+                'no_hp' => $profile->no_hp,
                 'no_paspor' => $profile->no_paspor,
                 'paspor_terbit' => $profile->paspor_terbit,
                 'paspor_kadaluarsa' => $profile->paspor_kadaluarsa,
                 'wilayah_terbit' => $profile->wilayah_terbit,
-
-                'tanggal_berangkat' => $request->tanggal_berangkat,
-                'maskapai_berangkat' => $request->maskapai_berangkat,
-                'no_penerbangan_berangkat' => $request->no_penerbangan_berangkat,
-
-                'tanggal_kembali' => $request->tanggal_kembali,
-                'maskapai_kembali' => $request->maskapai_kembali,
-                'no_penerbangan_kembali' => $request->no_penerbangan_kembali,
-
-                'hotel_mekkah' => $request->hotel_mekkah,
-                'checkin_mekkah' => $request->checkin_mekkah,
-                'checkout_mekkah' => $request->checkout_mekkah,
-
-                'hotel_madinah' => $request->hotel_madinah,
-                'checkin_madinah' => $request->checkin_madinah,
-                'checkout_madinah' => $request->checkout_madinah,
-
-                'lampiran_ktp' => $request->lampiran_ktp,
-                'lampiran_paspor' => $profile->lampiran_paspor,
-                'lampiran_kk' => $request->lampiran_kk,
-                'lampiran_tiket' => $request->lampiran_tiket,
-                'lampiran_hotel' => $request->lampiran_hotel,
             ];
         } else {
-            // Input manual
-            $visaData = $request->only(['user_id', 'nama_lengkap', 'tanggal_lahir', 'jenis_kelamin', 'no_hp', 'no_paspor', 'paspor_terbit', 'paspor_kadaluarsa', 'wilayah_terbit', 'tanggal_berangkat', 'maskapai_berangkat', 'no_penerbangan_berangkat', 'tanggal_kembali', 'maskapai_kembali', 'no_penerbangan_kembali', 'hotel_mekkah', 'checkin_mekkah', 'checkout_mekkah', 'hotel_madinah', 'checkin_madinah', 'checkout_madinah', 'lampiran_ktp', 'lampiran_paspor', 'lampiran_kk', 'lampiran_tiket', 'lampiran_hotel']);
+            $visaData += $request->only(['nama_lengkap', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'pekerjaan', 'no_hp', 'no_paspor', 'paspor_terbit', 'paspor_kadaluarsa', 'wilayah_terbit']);
         }
 
-        // Simpan file
-        $fileFields = ['lampiran_ktp', 'lampiran_paspor', 'lampiran_kk', 'lampiran_tiket', 'lampiran_hotel'];
-        foreach ($fileFields as $field) {
+        $visaData += $request->only(['tanggal_berangkat', 'maskapai_berangkat', 'no_penerbangan_berangkat', 'tanggal_kembali', 'maskapai_kembali', 'no_penerbangan_kembali', 'hotel_mekkah', 'checkin_mekkah', 'checkout_mekkah', 'hotel_madinah', 'checkin_madinah', 'checkout_madinah']);
+
+        foreach (['lampiran_ktp', 'lampiran_paspor', 'lampiran_kk', 'lampiran_tiket', 'lampiran_hotel'] as $field) {
             if ($request->hasFile($field)) {
-                $visaData[$field] = $request->file($field)->store('lampiran', 'public_uploads');
+                $visaData[$field] = $request->file($field)->store('temp_visa', 'public_uploads');
             }
         }
 
-        $validated['user_id'] = auth()->id(); // atau Auth::id()
-        $visaData['is_self'] = false;
+        session(['visa_temp_data' => $visaData]);
+
+        $harga = PriceVisa::latest()->first()?->price ?? 0;
+
+        return view('user.visa.detail', [
+            'home' => 'visa',
+            'breadcrumbs' => [['label' => 'Home', 'url' => '/'], ['label' => 'Layanan', 'url' => null], ['label' => 'Visa', 'url' => null]],
+            'data' => $visaData,
+            'harga' => $harga,
+        ]);
+    }
+
+    public function detail($id)
+    {
+        $visa = Visa::findOrFail($id);
+        $harga = VisaPrice::latest()->first()?->price ?? 0;
+
+        $home = 'visa';
+        $breadcrumbs = [['label' => 'Home', 'url' => '/'], ['label' => 'Layanan', 'url' => null], ['label' => 'Visa', 'url' => null]];
+
+        return view('user.visa.detail', compact('visa', 'harga', 'home', 'breadcrumbs'));
+    }
+
+    public function checkout(Request $request)
+    {
+        $request->validate([
+            'unit_price' => 'required|numeric|min:0',
+        ]);
+
+        $visaData = session('visa_temp_data');
+
+        if (!$visaData) {
+            return redirect()
+                ->route('visa.form')
+                ->withErrors(['message' => 'Data visa tidak ditemukan.']);
+        }
+
+        // Pindahkan file dari temp ke lampiran
+        foreach (['lampiran_ktp', 'lampiran_paspor', 'lampiran_kk', 'lampiran_tiket', 'lampiran_hotel'] as $field) {
+            if (!empty($visaData[$field])) {
+                $oldPath = str_replace('uploads/', '', $visaData[$field]); // e.g. temp_visa/ktp_xxx.pdf
+                $newPath = str_replace('temp_visa/', 'lampiran/', $oldPath);
+
+                if (\Storage::disk('public_uploads')->exists($oldPath)) {
+                    \Storage::disk('public_uploads')->move($oldPath, $newPath);
+                    $visaData[$field] = $newPath; // update path ke yang baru
+                }
+            }
+        }
 
         // Simpan data ke database
-        Visa::create($visaData);
+        $visa = Visa::create($visaData);
 
-        return redirect()->back()->with('success', 'Pengajuan visa berhasil dikirim.');
+        // Bersihkan session
+        session()->forget('visa_temp_data');
+
+        return view('user.visa.forward-checkout', [
+            'itemable_type' => Visa::class,
+            'itemable_id' => $visa->id,
+            'unit_price' => $request->unit_price,
+            'home' => 'visa',
+            'breadcrumbs' => [['label' => 'Home', 'url' => '/'], ['label' => 'Layanan', 'url' => null], ['label' => 'Visa', 'url' => null]],
+        ]);
     }
 }

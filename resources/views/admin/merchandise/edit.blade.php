@@ -44,8 +44,8 @@
                                         <div class="mb-3 row">
                                             <label class="col-sm-2 form-label" for="name">Nama</label>
                                             <div class="col-sm-10">
-                                                <input type="text" name="name" value="{{ old('name', $merchandise->name) }}"
-                                                    class="form-control">
+                                                <input type="text" name="name"
+                                                    value="{{ old('name', $merchandise->name) }}" class="form-control">
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
@@ -72,13 +72,22 @@
                                                 <div class="row">
                                                     <div class="col-sm-4">
                                                         @if ($merchandise->images)
-                                                            <img src="{{ asset('uploads/' . $merchandise->images) }}" alt="Current Images"
-                                                                class="img-thumbnail mt-2" width="150">
+                                                            <img src="{{ asset('uploads/' . $merchandise->images) }}"
+                                                                alt="Current Images" class="img-thumbnail mt-2"
+                                                                width="150">
                                                         @endif
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="mb-3 row">
+                                            <label class="col-sm-2 form-label" for="stock">Stok</label>
+                                            <div class="col-sm-10">
+                                                <input type="number" name="stock" placeholder="Jumlah stok tersedia"
+                                                    class="form-control"  value="{{ old('stock', $merchandise->stock) }}" required>
+                                            </div>
+                                        </div>
+
                                         <div class="mb-3 row">
                                             <div class="col-sm-10 offset-sm-2">
                                                 <button type="submit" class="btn btn-primary">Edit</button>

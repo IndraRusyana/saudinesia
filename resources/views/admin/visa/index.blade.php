@@ -66,7 +66,8 @@
                                         {{-- Lampiran File --}}
                                         <td>
                                             @if ($item->lampiran_ktp)
-                                                <a class="btn btn-sm btn-outline-primary" href="{{ asset('uploads/' . $item->lampiran_ktp) }}"
+                                                <a class="btn btn-sm btn-outline-primary"
+                                                    href="{{ asset('uploads/' . $item->lampiran_ktp) }}"
                                                     target="_blank">Lihat</a>
                                             @else
                                                 -
@@ -74,7 +75,8 @@
                                         </td>
                                         <td>
                                             @if ($item->lampiran_paspor)
-                                                <a class="btn btn-sm btn-outline-primary" href="{{ asset('uploads/' . $item->lampiran_paspor) }}"
+                                                <a class="btn btn-sm btn-outline-primary"
+                                                    href="{{ asset('uploads/' . $item->lampiran_paspor) }}"
                                                     target="_blank">Lihat</a>
                                             @else
                                                 -
@@ -82,7 +84,8 @@
                                         </td>
                                         <td>
                                             @if ($item->lampiran_kk)
-                                                <a class="btn btn-sm btn-outline-primary" href="{{ asset('uploads/' . $item->lampiran_kk) }}"
+                                                <a class="btn btn-sm btn-outline-primary"
+                                                    href="{{ asset('uploads/' . $item->lampiran_kk) }}"
                                                     target="_blank">Lihat</a>
                                             @else
                                                 -
@@ -90,7 +93,8 @@
                                         </td>
                                         <td>
                                             @if ($item->lampiran_tiket)
-                                                <a class="btn btn-sm btn-outline-primary" href="{{ asset('uploads/' . $item->lampiran_tiket) }}"
+                                                <a class="btn btn-sm btn-outline-primary"
+                                                    href="{{ asset('uploads/' . $item->lampiran_tiket) }}"
                                                     target="_blank">Lihat</a>
                                             @else
                                                 -
@@ -98,7 +102,8 @@
                                         </td>
                                         <td>
                                             @if ($item->lampiran_hotel)
-                                                <a class="btn btn-sm btn-outline-primary" href="{{ asset('uploads/' . $item->lampiran_hotel) }}"
+                                                <a class="btn btn-sm btn-outline-primary"
+                                                    href="{{ asset('uploads/' . $item->lampiran_hotel) }}"
                                                     target="_blank">Lihat</a>
                                             @else
                                                 -
@@ -107,7 +112,18 @@
 
                                         <td>{{ $item->created_at->format('d-m-Y H:i') }}</td>
                                         <td>
-                                            <a href="#" class="btn btn-success btn-sm">Konfirmasi</a>
+                                            @php
+                                                $transaction = $item->transactionItem->transaction ?? null;
+                                            @endphp
+
+                                            @if ($transaction)
+                                                <a href="{{ route('admin.transactions.show', $transaction->id) }}"
+                                                    class="btn btn-primary btn-sm">
+                                                    Lihat di Transaksi
+                                                </a>
+                                            @else
+                                                <span class="text-muted">Belum ada transaksi</span>
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty
@@ -124,12 +140,48 @@
                             </div>
                         @endif
 
+                    </div>
 
+                    <div class="row my-3">
+                        <div class="col-lg-6">
+                            <h5>Harga Visa Saat Ini: <span class="badge bg-success">Rp
+                                    {{ number_format($price->price, 0, ',', '.') }}</span></h5>
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                data-bs-target="#updateHargaModal">
+                                <i class="bi bi-pencil-square"></i> Update Harga
+                            </button>
+                        </div>
 
                     </div>
 
                 </div>
             </div>
+        </div>
+    </div>
+    <!-- Modal Update Harga -->
+    <div class="modal fade" id="updateHargaModal" tabindex="-1" aria-labelledby="updateHargaModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form action="{{ route('admin.price-visa.update', $price->id) }}" method="POST" class="modal-content">
+                @csrf
+                @method('PUT')
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateHargaModalLabel">Update Harga Visa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Harga Baru (Rp)</label>
+                        <input type="number" name="price" class="form-control" value="{{ $price->price }}" required>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Simpan Perubahan</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                </div>
+            </form>
         </div>
     </div>
 @endsection

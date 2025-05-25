@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Muttowif;
+use App\Models\PriceMuttowif;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -16,8 +17,10 @@ class MuttowifController extends Controller
     {
         //
         $user = Auth::user();
-        $muttowif = Muttowif::paginate(8);
-        return view('admin.muttowif.index', compact('muttowif', 'user'));
+        $muttowif = Muttowif::orderBy('created_at', 'desc')->paginate(20);
+        $price = PriceMuttowif::first();
+        
+        return view('admin.muttowif.index', compact('muttowif', 'user', 'price'));
     }
 
     /**
@@ -55,9 +58,17 @@ class MuttowifController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Muttowif $muttowif)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'price' => 'required|numeric|min:0',
+        ]);
+
+        $price = PriceMuttowif::findOrFail($id);
+        $price->price = $request->input('price');
+        $price->save();
+
+        return redirect()->route('admin.muttowif.index')->with('success', 'Harga Muttowif berhasil diperbarui.');
     }
 
     /**
