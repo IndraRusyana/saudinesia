@@ -19,7 +19,25 @@ class VisaController extends Controller
         $user = auth()->user();
         $profile = $user->profile; // pastikan relasi 'profile' ada di model User
 
+        // Cek jika profil belum lengkap atau belum ada
+        if (!$profile || !$this->isProfileComplete($profile)) {
+            return redirect()->route('profiles.edit', $profile->id)->with('error', 'Lengkapi profil Anda terlebih dahulu sebelum mengajukan visa.');
+        }
+
         return view('user.visa.index', compact('home', 'breadcrumbs', 'profile'));
+    }
+
+    protected function isProfileComplete($profile)
+    {
+        $requiredFields = ['nama_lengkap', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'pekerjaan', 'no_hp', 'no_paspor', 'paspor_terbit', 'paspor_kadaluarsa', 'wilayah_terbit'];
+
+        foreach ($requiredFields as $field) {
+            if (empty($profile->$field)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public function store(Request $request)

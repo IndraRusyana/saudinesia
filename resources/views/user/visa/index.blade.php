@@ -97,64 +97,54 @@
 
                     {{-- Informasi Keberangkatan --}}
                     <h5>Detail Keberangkatan</h5>
-                    @foreach ([
-            'tanggal_berangkat' => 'Tanggal Berangkat',
-            'maskapai_berangkat' => 'Maskapai Berangkat',
-            'no_penerbangan_berangkat' => 'Nomor Penerbangan Berangkat',
-            'tanggal_kembali' => 'Tanggal Kembali',
-            'maskapai_kembali' => 'Maskapai Kembali',
-            'no_penerbangan_kembali' => 'Nomor Penerbangan Kembali',
-        ] as $field => $label)
-                        <div class="mb-3">
-                            <label for="{{ $field }}" class="form-label">{{ $label }}</label>
-                            <input type="{{ str_contains($field, 'tanggal') ? 'date' : 'text' }}"
-                                name="{{ $field }}" class="form-control" value="{{ old($field) }}">
-                            @error($field)
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
+                    @php
+                        $keberangkatanFields = [
+                            'tanggal_berangkat' => 'Tanggal Berangkat',
+                            'maskapai_berangkat' => 'Maskapai Berangkat',
+                            'no_penerbangan_berangkat' => 'Nomor Penerbangan Berangkat',
+                            'tanggal_kembali' => 'Tanggal Kembali',
+                            'maskapai_kembali' => 'Maskapai Kembali',
+                            'no_penerbangan_kembali' => 'Nomor Penerbangan Kembali',
+                        ];
+                    @endphp
+
+                    @foreach ($keberangkatanFields as $field => $label)
+                        <x-form.input :type="str_contains($field, 'tanggal') ? 'date' : 'text'" :name="$field" :label="$label" />
                     @endforeach
 
                     {{-- Hotel Mekkah & Madinah --}}
                     <h5>Detail Hotel</h5>
-                    @foreach ([
-            'hotel_mekkah' => 'Hotel Mekkah',
-            'checkin_mekkah' => 'Check-In Mekkah',
-            'checkout_mekkah' => 'Check-Out Mekkah',
-            'hotel_madinah' => 'Hotel Madinah',
-            'checkin_madinah' => 'Check-In Madinah',
-            'checkout_madinah' => 'Check-Out Madinah',
-        ] as $field => $label)
-                        <div class="mb-3">
-                            <label for="{{ $field }}" class="form-label">{{ $label }}</label>
-                            <input type="{{ str_contains($field, 'check') ? 'date' : 'text' }}" name="{{ $field }}"
-                                class="form-control" value="{{ old($field) }}">
-                            @error($field)
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
+                    @php
+                        $hotelFields = [
+                            'hotel_mekkah' => 'Hotel Mekkah',
+                            'checkin_mekkah' => 'Check-In Mekkah',
+                            'checkout_mekkah' => 'Check-Out Mekkah',
+                            'hotel_madinah' => 'Hotel Madinah',
+                            'checkin_madinah' => 'Check-In Madinah',
+                            'checkout_madinah' => 'Check-Out Madinah',
+                        ];
+                    @endphp
+
+                    @foreach ($hotelFields as $field => $label)
+                        <x-form.input :type="str_contains($field, 'check') ? 'date' : 'text'" :name="$field" :label="$label" />
                     @endforeach
 
                     {{-- Upload File --}}
                     <h5>Lampiran</h5>
-                    @foreach ([
-            'lampiran_ktp' => 'KTP',
-            'lampiran_kk' => 'Kartu Keluarga',
-            'lampiran_paspor' => 'Paspor',
-            'lampiran_tiket' => 'lampiran/tiket.jpg',
-            'lampiran_hotel' => 'lampiran/hotel.jpg',
-        ] as $field => $label)
-                        @php
-                            $isPaspor = $field === 'lampiran_paspor';
-                        @endphp
-                        <div class="mb-3 {{ $isPaspor ? '' : '' }}" id="{{ $isPaspor ? 'lampiran-paspor-wrapper' : '' }}">
-                            <label for="{{ $field }}" class="form-label">{{ $label }}</label>
-                            <input type="file" name="{{ $field }}" class="form-control">
-                            @error($field)
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
+                    @php
+                        $fileFields = [
+                            'lampiran_ktp' => 'KTP',
+                            'lampiran_kk' => 'Kartu Keluarga',
+                            'lampiran_paspor' => 'Paspor',
+                            'lampiran_tiket' => 'Tiket Pesawat',
+                            'lampiran_hotel' => 'Bukti Reservasi Hotel',
+                        ];
+                    @endphp
+
+                    @foreach ($fileFields as $field => $label)
+                        <x-form.input type="file" :name="$field" :label="$label" />
                     @endforeach
+
 
 
                     <button type="submit" class="btn btn-primary">Ajukan Visa</button>
