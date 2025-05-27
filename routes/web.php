@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\SocialAuthController;
 use App\Http\Controllers\User\{UserController, HajiController, UmrohController, HotelController, TransportController, VisaController, MuttowifController, InformationsController, MerchandiseController, ProfileController, CartController, TransactionController, OrderController, InvoiceController, LoginController, RegisterController};
 use App\Http\Controllers\Admin\{PeriodController, CitiesController, RouteController, DashboardController, AuthController as AdminAuthController, HajiController as AdminHajiController, UmrohController as AdminUmrohController, HotelController as AdminHotelController, InformationsController as AdminInformationsController, TransportController as AdminTransportController, MuttowifController as AdminMuttowifController, VisaController as AdminVisaController, UserController as AdminUserController, MerchandiseController as AdminMerchandiseController, TransactionController as AdminTransactionController, LandArrangementController, ContentController as AdminContentController};
+use App\Http\Controllers\LanguageController;
+
+Route::get('/lang/{lang}', [LanguageController::class, 'switch'])->name('lang.switch');
 
 // User Public Routes
 Route::get('/', [UserController::class, 'index'])->name('user.home');

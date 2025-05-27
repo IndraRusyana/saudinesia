@@ -11,23 +11,24 @@
 @section('content')
     <div class="hero overlay">
         @foreach ($hero as $item)
-            
         @endforeach
         <div class="img-bg rellax">
-            <img src="{{asset('uploads/'.$item->image)}}" alt="Image" class="img-fluid">
+            <img src="{{ asset('uploads/' . $item->image) }}" alt="Image" class="img-fluid">
         </div>
 
         <div class="container">
             <div class="row align-items-center justify-content-start">
                 <div class="col-lg-5">
 
-                    <h1 class="heading" data-aos="fade-up">{{$item->title}}</h1>
-                    <p class="mb-5" data-aos="fade-up">{{$item->description}}</p>
+                    <h1 class="heading" data-aos="fade-up">{{ $item->title }}</h1>
+                    <p class="mb-5" data-aos="fade-up">{{ $item->description }}</p>
 
                     <div data-aos="fade-up">
                         <a href="/transport" class="play-button align-items-center d-flex glightbox3">
                             <button type="button" class="btn btn-outline-light">Lihat Tour</button>
                         </a>
+                        {{-- <p>Current Locale: {{ app()->getLocale() }}</p>
+                        <p>{{ __('messages.greeting') }}</p> --}}
                     </div>
                 </div>
 
