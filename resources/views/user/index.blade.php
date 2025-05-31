@@ -57,25 +57,21 @@
                 <div class="col-lg-4 order-lg-1">
 
                     <div>
-                        <h2 class="heading mb-3" data-aos="fade-up" data-aos-delay="100">Pilih Paket Haji atau Umroh Sesuai
-                            keinginan
-                            mu</h2>
+                        <h2 class="heading mb-3" data-aos="fade-up" data-aos-delay="100">{{ __('homepage.judul') }}</h2>
+                        <p data-aos="fade-up" data-aos-delay="300">{{ __('homepage.paragraf_1') }}</p>
 
-                        <p data-aos="fade-up" data-aos-delay="200">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Sed pellentesque arcu et turpis imperdiet dapibus. Vestibulum eget lobortis nulla. Pellentesque
-                            luctus feugiat ante id egestas.</p>
-
-                        <p data-aos="fade-up" data-aos-delay="300">Cras malesuada justo sed volutpat aliquam. Duis faucibus
-                            tincidunt auctor. Nam at dolor ornare, pharetra felis vel, pulvinar quam. Nulla venenatis ipsum
-                            ac ex rutrum, eget blandit nisl sagittis.</p>
+                        <p data-aos="fade-up" data-aos-delay="300">{{ __('homepage.paragraf_2') }}</p>
 
                         <div class="d-flex">
-                            <p class="my-4 me-3" data-aos="fade-up" data-aos-delay="300"><a href="/haji"
-                                    class="btn btn-outline-secondary">Paket Haji</a></p>
-                            <p class="my-4" data-aos="fade-up" data-aos-delay="300"><a href="/umroh"
-                                    class="btn btn-outline-secondary">Paket Umroh</a></p>
+                            <p class="my-4 me-3" data-aos="fade-up" data-aos-delay="300">
+                                <a href="/haji" class="btn btn-outline-secondary">{{ __('homepage.btn_haji') }}</a>
+                            </p>
+                            <p class="my-4" data-aos="fade-up" data-aos-delay="300">
+                                <a href="/umroh" class="btn btn-outline-secondary">{{ __('homepage.btn_umroh') }}</a>
+                            </p>
                         </div>
                     </div>
+
                 </div>
 
             </div>
@@ -87,140 +83,68 @@
         <div class="container">
             <div class="row align-items-center justify-content-between  mb-5">
                 <div class="col-lg-5" data-aos="fade-up">
-                    <h2 class="heading mb-3">Layanan Kami</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque arcu et turpis imperdiet
-                        dapibus. Vestibulum eget lobortis nulla.</p>
-                </div>
-                <div class="col-lg-5 text-md-end" data-aos="fade-up" data-aos-delay="100">
-                    <div id="destination-controls">
-                        <span class="prev me-3" data-controls="prev">
-                            <span class="icon-chevron-left"></span>
-
-                        </span>
-                        <span class="next" data-controls="next">
-                            <span class="icon-chevron-right"></span>
-
-                        </span>
-                    </div>
+                    <h2 class="heading mb-3">{{ __('homepage.layanan_judul') }}</h2>
+                    <p></p>
                 </div>
             </div>
 
         </div>
 
-        <div class="destination-slider-wrap">
-            <div class="destination-slider">
-                <div class="destination">
-                    <div class="thumb">
-                        <img src="assets/user/images/img-1.jpg" alt="Image" class="img-fluid">
-                        <div class="judul">
-                            Penawaran Hotel Terbaik
-                            <p class="text-dark" style="font-size: 0.6em">Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit</p>
-                        </div>
-                        <a href="/hotel" class="lihat m-4 btn btn-light px-3 py-1" style="font-size: 1.2em">
-                            Lihat
+        <div class="row px-5 g-3">
+            <div class="col-md-3 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ __('homepage.layanan_list.hotel.judul') }}</h5>
+                        <p class="card-text text-dark" style="font-size: 0.9em">
+                            {{ __('homepage.layanan_list.hotel.deskripsi') }}
+                        </p>
+                        <a href="/hotel" class="btn btn-dark px-3 py-1" style="font-size: 1em">
+                            {{ __('homepage.layanan_list.hotel.link') }}
                         </a>
                     </div>
                 </div>
+            </div>
 
-                <div class="destination">
-                    <div class="thumb">
-                        <img src="assets/user/images/img-2.jpg" alt="Image" class="img-fluid">
-                        <div class="judul">
-                            Penawaran Transport Terbaik
-                            <p class="text-dark" style="font-size: 0.6em">Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit</p>
-                        </div>
-                        <a href="/transport" class="lihat m-4 btn btn-light px-3 py-1" style="font-size: 1.2em">
-                            Lihat
+            <div class="col-md-3 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ __('homepage.layanan_list.transport.judul') }}</h5>
+                        <p class="card-text text-dark" style="font-size: 0.9em">
+                            {{ __('homepage.layanan_list.transport.deskripsi') }}
+                        </p>
+                        <a href="/transport" class="btn btn-dark px-3 py-1" style="font-size: 1em">
+                            {{ __('homepage.layanan_list.transport.link') }}
                         </a>
                     </div>
                 </div>
+            </div>
 
-                <div class="destination">
-                    <div class="thumb">
-                        <img src="assets/user/images/img-3.jpg" alt="Image" class="img-fluid">
-                        <div class="judul">
-                            Penawaran Muttowif Terbaik
-                            <p class="text-dark" style="font-size: 0.6em">Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit</p>
-                        </div>
-                        <a href="/muttowif" class="lihat m-4 btn btn-light px-3 py-1" style="font-size: 1.2em">
-                            Lihat
+            <div class="col-md-3 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ __('homepage.layanan_list.muttowif.judul') }}</h5>
+                        <p class="card-text text-dark" style="font-size: 0.9em">
+                            {{ __('homepage.layanan_list.muttowif.deskripsi') }}
+                        </p>
+                        <a href="/muttowif" class="btn btn-dark px-3 py-1" style="font-size: 1em">
+                            {{ __('homepage.layanan_list.muttowif.link') }}
                         </a>
                     </div>
                 </div>
+            </div>
 
-                <div class="destination">
-                    <div class="thumb">
-                        <img src="assets/user/images/img-4.jpg" alt="Image" class="img-fluid">
-                        <div class="judul">
-                            Penawaran Visa Terbaik
-                            <p class="text-dark" style="font-size: 0.6em">Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit</p>
-                        </div>
-                        <a href="/visa" class="lihat m-4 btn btn-light px-3 py-1" style="font-size: 1.2em">
-                            Lihat
+            <div class="col-md-3 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ __('homepage.layanan_list.visa.judul') }}</h5>
+                        <p class="card-text text-dark" style="font-size: 0.9em">
+                            {{ __('homepage.layanan_list.visa.deskripsi') }}
+                        </p>
+                        <a href="/visa" class="btn btn-dark px-3 py-1" style="font-size: 1em">
+                            {{ __('homepage.layanan_list.visa.link') }}
                         </a>
                     </div>
                 </div>
-
-                <div class="destination">
-                    <div class="thumb">
-                        <img src="assets/user/images/img-1.jpg" alt="Image" class="img-fluid">
-                        <div class="judul">
-                            Penawaran Hotel Terbaik
-                            <p class="text-dark" style="font-size: 0.6em">Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit</p>
-                        </div>
-                        <a href="/hotel" class="lihat m-4 btn btn-light px-3 py-1" style="font-size: 1.2em">
-                            Lihat
-                        </a>
-                    </div>
-                </div>
-
-                <div class="destination">
-                    <div class="thumb">
-                        <img src="assets/user/images/img-2.jpg" alt="Image" class="img-fluid">
-                        <div class="judul">
-                            Penawaran Transport Terbaik
-                            <p class="text-dark" style="font-size: 0.6em">Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit</p>
-                        </div>
-                        <a href="/transport" class="lihat m-4 btn btn-light px-3 py-1" style="font-size: 1.2em">
-                            Lihat
-                        </a>
-                    </div>
-                </div>
-
-                <div class="destination">
-                    <div class="thumb">
-                        <img src="assets/user/images/img-3.jpg" alt="Image" class="img-fluid">
-                        <div class="judul">
-                            Penawaran Muttowif Terbaik
-                            <p class="text-dark" style="font-size: 0.6em">Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit</p>
-                        </div>
-                        <a href="/muttowif" class="lihat m-4 btn btn-light px-3 py-1" style="font-size: 1.2em">
-                            Lihat
-                        </a>
-                    </div>
-                </div>
-
-                <div class="destination">
-                    <div class="thumb">
-                        <img src="assets/user/images/img-4.jpg" alt="Image" class="img-fluid">
-                        <div class="judul">
-                            Penawaran Visa Terbaik
-                            <p class="text-dark" style="font-size: 0.6em">Lorem ipsum, dolor sit amet consectetur
-                                adipisicing elit</p>
-                        </div>
-                        <a href="/visa" class="lihat m-4 btn btn-light px-3 py-1" style="font-size: 1.2em">
-                            Lihat
-                        </a>
-                    </div>
-                </div>
-
             </div>
         </div>
 
@@ -233,17 +157,17 @@
                     <img src="assets/user/images/img3.jpg" alt="Image" class="img-fluid">
                 </div>
                 <div class="col-lg-5" data-aos="fade-up" data-aos-delay="100">
-                    <h2 class="heading mb-4">Kenapa memilih Saudinesia ?</h2>
-                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live
-                        the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large
-                        language ocean.</p>
-                    <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a
-                        paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
-                    <p class="my-4" data-aos="fade-up" data-aos-delay="200"><a href="#"
-                            class="btn btn-primary">Read more</a></p>
+                    <h2 class="heading mb-4">{{ __('homepage.kenapa_memilih_kami_judul') }}</h2>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">• {!! __('homepage.kenapa_memilih_kami_list.pengalaman') !!}</li>
+                        <li class="mb-2">• {!! __('homepage.kenapa_memilih_kami_list.kualitas') !!}</li>
+                        <li class="mb-2">• {!! __('homepage.kenapa_memilih_kami_list.transparansi') !!}</li>
+                        <li class="mb-2">• {!! __('homepage.kenapa_memilih_kami_list.dukungan') !!}</li>
+                    </ul>
                 </div>
             </div>
         </div>
+
     </div>
 
     <div class="section bg-light">
@@ -252,7 +176,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-9">
                 <div class="row">
-                    <h2 class="heading mb-5 text-start">Testimoni Pelanggan</h2>
+                    <h2 class="heading mb-5 text-start">{{ __('messages.testimoni') }}</h2>
                     @foreach ($testimoni as $t)
                         <div class="item col m-3">
                             <blockquote class="block-testimonial">
@@ -277,8 +201,8 @@
                 <div class="col-lg-6 mx-auto text-center">
                     <div class="heading-content" data-aos="fade-up">
                         <h2>Galeri</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur. Mollis erat duis aliquam mauris est risus lectus.
-                            Phasellus consequat urna tellus</p>
+                        {{-- <p>Lorem ipsum dolor sit amet consectetur. Mollis erat duis aliquam mauris est risus lectus.
+                            Phasellus consequat urna tellus</p> --}}
                         {{-- <p class="my-4" data-aos="fade-up" data-aos-delay="300"><a href="#" class="btn btn-primary">View All</a></p> --}}
                         <div class="mb-4" data-aos="fade-up" data-aos-delay="300">
                             <a class="btn product-btn btn-danger btn-default filter-button me-2 my-2 clicked"
@@ -316,12 +240,14 @@
         <div class="container">
 
             <div class="row">
-                <div class="col"data-aos="fade-up" data-aos-delay="0">
-                    <h2 class="heading mb-5">Informasi Terbaru <a class="btn btn-outline-dark float-end"
-                            href="/informasi">Lihat Semua</a></h2>
+                <div class="col" data-aos="fade-up" data-aos-delay="0">
+                    <h2 class="heading mb-5">
+                        {{ __('homepage.informasi_terbaru') }}
+                        <a class="btn btn-outline-dark float-end" href="/informasi">{{ __('homepage.lihat_semua') }}</a>
+                    </h2>
                 </div>
-
             </div>
+
             <div class="row align-items-stretch gx-5">
                 @forelse ($informasi as $index => $item)
                     <div class="col-lg-3">
@@ -339,10 +265,11 @@
                     </div>
                 @empty
                     <div class="col-12 text-center">
-                        <div class="alert alert-warning">Belum ada data informasi yang tersedia.</div>
+                        <div class="alert alert-warning">{{ __('homepage.tidak_ada_informasi') }}</div>
                     </div>
                 @endforelse
             </div>
+
         </div>
     </div>
 

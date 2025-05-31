@@ -18,6 +18,7 @@
         <section>
             <div class="container mt-5">
                 <div class="row g-4">
+                    <h3>{{ __('messages.paket_haji') }}</h3>
                     @forelse ($query as $index => $item)
                         <div id="" class="col-lg-3">
                             <a href="/haji/detail/{{$item->id}}">

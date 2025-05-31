@@ -1,7 +1,7 @@
 @extends('layouts.user')
 
 @section('title')
-    Informasi Terbaru | Saudinesia
+    {{ __('homepage.informasi_terbaru') }} | Saudinesia
 @endsection
 
 @section('informasi')
@@ -20,7 +20,7 @@
 
 
                 <div class="row g-4 align-items-stretch">
-                    <h3>Informasi Terbaru</h3>
+                    <h3>{{ __('homepage.informasi_terbaru') }}</h3>
                     @forelse ($query as $index => $item)
                         <div class="col-lg-3">
                             <a href="/informasi/detail/{{$item->id}}">
