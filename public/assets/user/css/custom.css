@@ -346,5 +346,16 @@ opacity: 0.8;
     padding: 10px 30px;
   }
 
+  .img-thumbnail {
+  width: 100%;
+  aspect-ratio: 1 / 1;     /* Membuat kotak 1:1 */
+  object-fit: cover;       /* Memastikan gambar tidak melebar atau menyempit */
+  border-radius: 0.25rem;
+  border: 1px solid #dee2e6;
+  padding: 0.25rem;
+  background-color: #fff;
+}
+
+
 
 

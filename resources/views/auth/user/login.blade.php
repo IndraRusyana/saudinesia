@@ -103,19 +103,26 @@
             <div class="text-center text-muted mb-3">
                 <small>Forgot your password?</small>
             </div>
+            <div class="d-grid mb-3">
+                <a class="btn btn-login"
+                    href="/register">Register
+                </a>
+            </div>
 
             <div class="divider">or</div>
 
             <div class="d-grid gap-2">
                 <button type="button" class="btn btn-social">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+                    <img src="https://apis.google.com/js/platform.js"
                         alt="Google"><a href="{{ route('auth.google') }}">Log in with Google</a> 
                 </button>
                 <button type="button" class="btn btn-social">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple">
                     Log in with Apple
                 </button>
+
             </div>
+            
             @if ($errors->any())
                 <div class="alert alert-danger mt-4">
                     {{ $errors->first() }}

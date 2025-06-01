@@ -44,9 +44,10 @@
             <div class="row align-items-center justify-content-between">
                 <div class="col-lg-6 order-lg-2 mb-5 mb-lg-0">
                     <div class="image-stack mb-5 mb-lg-0">
-                        <div class="image-stack__item image-stack__item--bottom" data-aos="fade-up">
-                            <img src="assets/user/images/img2.jpg" alt="Image" class="img-fluid rellax ">
+                        <div class="image-stack_item image-stack_item--bottom aos-init aos-animate">
+                            <img src="assets/user/images/img2.jpg" alt="" class="img-fluid rellax">
                         </div>
+
                         <div class="image-stack__item image-stack__item--top" data-aos="fade-up" data-aos-delay="100"
                             data-rellax-percentage="0.5">
                             <img src="assets/user/images/img1.jpg" alt="Image" class="img-fluid">
@@ -224,8 +225,8 @@
             <div class="row">
                 <div class="row g-3">
                     @foreach ($galeri as $item)
-                        <div class="mb-4 col-lg-3 justify-content-center filter {{ $item->kategori }}">
-                            <img src="{{ asset('uploads/' . $item->gambar) }}" class="img-thumbnail"
+                        <div class="mb-4 col-md-3 justify-content-center filter {{ $item->kategori }}">
+                            <img src="{{ asset('uploads/' . $item->gambar) }}" class="img-thumbnail col-md-4"
                                 style="cursor: pointer;" data-type="image"
                                 data-src="{{ asset('uploads/' . $item->gambar) }}" data-nama="{{ $item->nama }}"
                                 data-deskripsi="{{ $item->deskripsi }}" onclick="handleMediaClick(this)">

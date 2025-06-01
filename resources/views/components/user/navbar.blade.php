@@ -22,6 +22,20 @@
                         width="120"></a>
             </div>
             <div class="col-md-8 col-lg-8 d-none d-lg-inline-block text-center nav-center-wrap">
+                @guest('user')
+                    {{-- Tombol untuk tamu (belum login) --}}
+                    <div class="button js-clone-nav d-none d-lg-inline-block">
+                        
+                        <a class="btn btn-light {{ $home !== 'home' ? 'btn-dark' : '' }} px-3 py-2"
+                            href="/login">Login
+                        </a>
+                        <a class="btn btn-light {{ $home !== 'home' ? 'btn-dark' : '' }} px-3 py-2"
+                            href="/register">Register
+                        </a>
+                        
+                    </div>
+                        
+                @endguest
                 <ul class="js-clone-nav  text-center site-menu p-0 m-0">
                     <li class=""><a href="/" class="{{ $home == 'home' ? 'active-2' : '' }}"
                             style="font-weight: 600">{{ __('messages.home') }}</a></li>
@@ -59,19 +73,11 @@
                         </ul>
                     </li>
                 </ul>
+
             </div>
+            
             <div class="col text-lg-end">
-                @guest('user')
-                    {{-- Tombol untuk tamu (belum login) --}}
-                    <div class="button js-clone-nav d-none d-lg-inline-block px-0">
-                        <a class="btn btn-light {{ $home !== 'home' ? 'btn-dark' : '' }} px-3 py-2"
-                            href="/login">Login</a>
-                    </div>
-                    <div class="button js-clone-nav d-none d-lg-inline-block">
-                        <a class="btn btn-light {{ $home !== 'home' ? 'btn-dark' : '' }} px-3 py-2"
-                            href="/register">Register</a>
-                    </div>
-                @endguest
+                
 
                 @auth('user')
                     {{-- Dropdown menu user --}}
