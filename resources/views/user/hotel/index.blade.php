@@ -20,9 +20,14 @@
                 <form method="GET" action="{{ route('user.hotel.index') }}">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="more-info shadow-sm border mx-auto">
+                            <div class="more-info shadow-sm border" style="width:100%">
+                                <div class="col-lg-6">
+                                            <div class="main-button col-8 mb-2" >
+                                                <button type="submit" class="btn btn-primary">Cari</button>
+                                            </div>
+                                </div>
                                 <div class="row align-items-center">
-                                    <div class="col-lg-4 col-sm-6 col-6">
+                                    <div class="col-lg-4 col-sm-6 col-7">
                                         <i class="fa-solid fa-location-dot" style="cursor: pointer"></i>
                                         <h4>
                                             <span>Kota:</span><br>
@@ -36,7 +41,7 @@
                                             </select>
                                         </h4>
                                     </div>
-                                    <div class="col-lg-4 col-sm-6 col-6">
+                                    <div class="col-lg-4 col-sm-6 col-5">
                                         <i class="fa-solid fa-calendar-days" style="cursor: pointer"></i>
                                         <h4>
                                             <span>Periode:</span><br>
@@ -49,11 +54,6 @@
                                                 @endforeach
                                             </select>
                                         </h4>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6 col-6 mt-4">
-                                        <div class="main-button">
-                                            <button type="submit" class="btn btn-primary">Cari</button>
-                                        </div>
                                     </div>
                                 </div>
                             </div>

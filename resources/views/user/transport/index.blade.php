@@ -20,27 +20,33 @@
                 <form method="GET" action="{{ route('user.transport.index') }}">
                     <div class="row justify-content-center">
                         <div class="col-lg-6">
-                            <div class="more-info shadow-sm border mx-autoe">
+                            <div class="more-info shadow-sm border " style="width:100%">
                                 <div class="row g-3 align-items-center">
-                                    <div class="col-lg-4 col-sm-6 col-6">
-                                        <i class="fa-solid fa-calendar-days" style="cursor: pointer"></i>
-                                        <h4>
-                                            <span>Periode:</span><br>
-                                            <select name="period">
-                                                @foreach ($periods as $period)
-                                                    <option value="{{ $period->id }}"
-                                                        {{ $period->id == $periodId ? 'selected' : '' }}>
-                                                        {{ $period->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </h4>
-                                    </div>
-                                    <div class="col-lg-3 col-sm-6 col-6 mt-4">
-                                        <div class="main-button">
-                                            <button type="submit" class="btn btn-primary">Cari</button>
+                                    <center>
+                                        <div class="col-lg-4 col-sm-6 col-6">
+                                            <div>
+                                            <i class="fa-solid fa-calendar-days" style="cursor: pointer"></i>
+                                            <h4>
+                                                <span>Periode:</span><br>
+                                                <select name="period">
+                                                    @foreach ($periods as $period)
+                                                        <option value="{{ $period->id }}"
+                                                            {{ $period->id == $periodId ? 'selected' : '' }}>
+                                                            {{ $period->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </h4>
+                                            </div>
+                                            <div class="col-lg-3 col-sm-6 col-6 mt-4">
+                                                <div class="main-button">
+                                                    <button type="submit" class="btn btn-primary">Cari</button>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </center>
+                                    
+                                    
                                 </div>
                             </div>
                         </div>
