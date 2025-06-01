@@ -37,42 +37,62 @@
                         
                 @endguest
                 <ul class="js-clone-nav  text-center site-menu p-0 m-0">
+                    
                     <li class=""><a href="/" class="{{ $home == 'home' ? 'active-2' : '' }}"
-                            style="font-weight: 600">{{ __('messages.home') }}</a></li>
-                    <li class="has-children">
-                        <a href="#" class="{{ $home == 'haji' || $home == 'umroh' ? 'active-2' : '' }}"
-                            style="font-weight: 600;">{{ __('messages.paket') }}</a>
-                        <ul class="dropdown">
-                            <li class="{{ request()->is('haji') ? 'active-2' : '' }}"><a href="/haji">Haji</a></li>
-                            <li class="{{ request()->is('umroh') ? 'active-2' : '' }}"><a href="/umroh">Umroh</a></li>
-                        </ul>
+                            style="font-weight: 600">{{ __('messages.home') }}</a>
                     </li>
-                    <li class="has-children">
-                        <a href="#"
-                            class="{{ $home == 'hotel' || $home == 'transport' || $home == 'muttowif' || $home == 'visa' || $home == 'merchandise' ? 'active-2' : '' }}"
-                            style="font-weight: 600">{{ __('messages.layanan') }}</a>
-                        <ul class="dropdown">
-                            <li class="{{ request()->is('hotel') ? 'active-2' : '' }}"><a href="/hotel">Hotel</a></li>
-                            <li class="{{ request()->is('transport') ? 'active-2' : '' }}"><a href="/transport">Transport</a></li>
-                            <li class="{{ request()->is('muttowif') ? 'active-2' : '' }}"><a href="/muttowif">Muttowif</a></li>
-                            <li class="{{ request()->is('visa') ? 'active-2' : '' }}"><a href="/visa">Visa</a></li>
-                            <li class="{{ request()->is('merchandise') ? 'active-2' : '' }}"><a href="/merchandise">Merchandise</a></li>
-                        </ul>
+                    <li>
+                        <div class="btn-group">
+                            <button class="btn dropdown-toggle {{ $home == 'haji' || $home == 'umroh' ? 'active-2' : '' }}" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ __('messages.paket') }}
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li class="{{ request()->is('haji') ? 'active-2' : '' }}"><a href="/haji">Haji</a></li>
+                                <li class="{{ request()->is('umroh') ? 'active-2' : '' }}"><a href="/umroh">Umroh</a></li>
+                            </ul>
+                        </div>
                     </li>
+                    <li>
+                        <div class="btn-group">
+                            <button class="btn dropdown-toggle {{ $home == 'hotel' || $home == 'transport' || $home == 'muttowif' || $home == 'visa' || $home == 'merchandise' ? 'active-2' : '' }}" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ __('messages.layanan') }}
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li class="{{ request()->is('hotel') ? 'active-2' : '' }}"><a href="/hotel">Hotel</a></li>
+                                <li class="{{ request()->is('transport') ? 'active-2' : '' }}"><a href="/transport">Transport</a></li>
+                                <li class="{{ request()->is('muttowif') ? 'active-2' : '' }}"><a href="/muttowif">Muttowif</a></li>
+                                <li class="{{ request()->is('visa') ? 'active-2' : '' }}"><a href="/visa">Visa</a></li>
+                                <li class="{{ request()->is('merchandise') ? 'active-2' : '' }}"><a href="/merchandise">Merchandise</a></li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li>
+                        <div class="btn-group">
+                            <button class="btn dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ strtoupper(app()->getLocale()) }}
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ route('lang.switch', 'en') }}">English</a></li>
+                                <li><a href="{{ route('lang.switch', 'id') }}">Bahasa</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    
                     <li><a href="/informasi" class="{{ $home == 'informasi' ? 'active-2' : '' }}"
-                            style="font-weight: 600">{{ __('messages.informasi') }}</a></li>
-                    {{-- <li><a href="" class="{{ $home == 'tentang kami' ? 'active-2' : '' }}"
-                            style="font-weight: 600">{{ __('messages.tentang_kami') }}</a></li> --}}
-                    <li><a href="" class="{{ $home == 'helpdesk' ? 'active-2' : '' }}"
-                            style="font-weight: 600">{{ __('messages.helpdesk') }}</a></li>
-                    <li class="has-children">
-                        <a href="#" style="font-weight: 600">{{ strtoupper(app()->getLocale()) }}</a>
-                        <ul class="dropdown">
-                            <li><a href="{{ route('lang.switch', 'en') }}">English</a></li>
-                            <li><a href="{{ route('lang.switch', 'id') }}">Bahasa</a></li>
-                        </ul>
+                            style="font-weight: 600">{{ __('messages.informasi') }}</a>
                     </li>
+                    {{-- <li><a href="" class="{{ $home == 'tentang kami' ? 'active-2' : '' }}"
+                            style="font-weight: 600">{{ __('messages.tentang_kami') }}</a>
+                        </li> 
+                    --}}
+                    <li><a href="" class="{{ $home == 'helpdesk' ? 'active-2' : '' }}"
+                            style="font-weight: 600">{{ __('messages.helpdesk') }}</a>
+                    </li>
+
+                    
                 </ul>
+                
 
             </div>
             
